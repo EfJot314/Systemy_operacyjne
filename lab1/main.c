@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-struct parray *pStruct;
+struct parray *pStruct = NULL;
 
 
 int whatIsIt(char* command){
@@ -20,6 +20,37 @@ int whatIsIt(char* command){
         pStruct = createStructure(maxSize);
         return 1;
     }
+    //count file
+    if(strcmp(curWord, "count") == 0){
+        curWord = strtok(NULL, white);
+        if(pStruct != NULL){
+            countFile(pStruct, curWord);
+        }
+        else{
+            printf("Nie zainicjowano struktury!\n");
+        }
+        return 2;
+    }
+    //show index
+    if(strcmp(curWord, "show") == 0){
+        curWord = strtok(NULL, white);
+        int ind = atoi(curWord);
+        if(pStruct != NULL){
+            char* result = getBlock(pStruct, ind);
+            if(result != NULL){
+                printf("%s", result);
+                free(result);
+            }
+            else{
+                printf("Podany indeks nie jest zapisany!\n");
+            }
+        }
+        else{
+            printf("Nie zainicjowano struktury!\n");
+        }
+        return 3;
+    }
+    
 }
 
 int main(){
