@@ -1,9 +1,37 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include <string.h>
+#include<string.h>
+#include<time.h>
+#include <sys/times.h>
 
 
+
+//zmienne do mierzenia czasu
+static struct tms startTms;
+static struct tms endTms;
+static clock_t realStart;
+static clock_t realStop;
+
+//wskaznik na parray
 struct parray *pStruct = NULL;
+
+
+//funkcje do zegara
+void startTime(){
+    //mierzenie czasu poczatkowego
+    realStart = times(&startTms);
+}
+
+void stopTime(){
+    //mierzenie czasu koncowego
+    realStop = times(&endTms);
+
+    //obliaczanie roznic czasu
+    double realTime = (double)(realStop-realStart);
+    double usrTime = (double)(endTms.tms_utime-startTms.tms_utime);
+    double sysTime = (double)(endTms.tms_stime-startTms.tms_stime);
+    printf("real: %f, usr: %f, sys: %f \n", realTime, usrTime, sysTime);
+}
 
 
 int parseInput(char* command){
@@ -17,6 +45,7 @@ int parseInput(char* command){
     if(strcmp(curWord, "init") == 0){
         curWord = strtok(NULL, white);
         int maxSize = atoi(curWord);
+        //wywolanie funkcji
         pStruct = createStructure(maxSize);
         return 1;
     }
@@ -24,6 +53,7 @@ int parseInput(char* command){
     if(strcmp(curWord, "count") == 0){
         curWord = strtok(NULL, white);
         if(pStruct != NULL){
+            //wywolanie funkcji
             countFile(pStruct, curWord);
         }
         else{
@@ -36,7 +66,9 @@ int parseInput(char* command){
         curWord = strtok(NULL, white);
         int ind = atoi(curWord);
         if(pStruct != NULL){
+            //wywolanie funkcji
             char* result = getBlock(pStruct, ind);
+
             if(result != NULL){
                 printf("%s", result);
                 free(result);
@@ -93,7 +125,14 @@ int main(){
         printf(">>> ");
         fgets(currCom, maxSizeOfCommand, stdin);
 
+        
+        startTime();
+
+        //wywolanie funkcji
         int result =  parseInput(currCom);
+
+        stopTime();
+
 
         if(result == 0){
             return 0;
