@@ -6,7 +6,7 @@ struct parray
 {
     int size;
     int actSize;
-    void* tab[];
+    void** tab;
 };
 
 
@@ -14,91 +14,160 @@ struct parray* createStructure(int maxSize){
     void* tab[maxSize];
     struct parray *p1;
     p1 = malloc(sizeof(struct parray));
-    *p1->tab = (void*)calloc(maxSize, sizeof(void*));
-    p1->size = maxSize;
-    p1->actSize = 0;
+    if(p1 != NULL){
+        p1->tab = (void*)calloc(maxSize, sizeof(void*));
+        p1->size = maxSize;
+        p1->actSize = 0;
 
-    printf("struktura zostala stworzona\n");
+        printf("struktura zostala stworzona.\n");
+
+        return p1;
+    }
+
+    printf("Blad alokacji pamieci.\n");
+
+    return NULL;
     
-    return p1;
 }
 
 
 void countFile(struct parray* pStruct, char *fileName){
 
-    fileName = "./testowe";
 
-    char* tempName = NULL;
+    //zczytywanie aktualnej dlugosci ze struktury
+    int size = pStruct->actSize;
+    int maxSize = pStruct->size;
 
-    tempName = tmpnam(NULL);
+    if(size < maxSize){
+        //tworzenie pliku tmp
+        char* tempName = tmpnam(NULL);
 
-    printf(tempName);
+        //jesli plik zostal stworzony
+        if(tempName != NULL){
+            
+            //wyznaczanie dlugosci polecenia
+            int leng = strlen("wc ")+strlen(tempName)+strlen(" > ")+strlen(fileName);
 
-    printf("\n");
+            //tworzenie polecenia
+            char* command = calloc(leng, sizeof(char));
+            if(command != NULL){
+                strcat(command, "wc ");
+                strcat(command, fileName);
+                strcat(command, " > ");
+                strcat(command, tempName);
+                
+                //wywolywanie polecenia
+                system(command);
 
-    
+                //usuwanie polecenia z pamieci
+                free(command);
 
-    if(tempName != NULL){
-        char* command;
+                //otwieranie pliku tmp
+                FILE* file = fopen(tempName, "r");
+                if(file != NULL){
+                    //przesuwa kursor na koniec pliku fseek(wskaznik na plik, o ile przesunac, wzgledem czego przesunac)
+                    fseek(file, 0, SEEK_END);
+                    //zwraca aktualna pozycje kursora ftell(wskaznik na plik)
+                    int fileSize = ftell(file);
+                    //powrot kursorem na poczatek pliku rewind(wskaznik na plik) -> praktycznie rownowazne fseek(file, 0, SEEK_SET)
+                    rewind(file);
 
-        int leng = strlen("wc ")+strlen(tempName)+strlen(" > ")+strlen(fileName);
-        printf("%d\n", leng);
 
-        command = malloc(leng);
+                    //wpisywanie zawartosci pliku do bloku pamieci
+                    char* block = calloc(1, fileSize*sizeof(char));
+                    char ch = "";
+                    for(int i=0;i<fileSize;i++){
+                        ch = fgetc(file);
+                        *(block+i) = ch;
+                    }
 
-        strcat(command, "wc ");
-        strcat(command, fileName);
-        strcat(command, " > ");
-        strcat(command, tempName);
+                    //ustawianie wskaznika w tablicy na wlasnie stworzony blok pamieci
+                    pStruct->tab[size] = (void*)block;
 
-        printf("%s", command);
-        printf("\n");
+                    //inkrementacja licznika
+                    pStruct->actSize = size+1;
+                    
+                    //zamykanie pliku
+                    fclose(file);
+                }
+                else{
+                    printf("Blad otwierania pliku.\n");
+                }
+
+                
+            }
+            else{
+                printf("Blad alokacji pamieci.\n");
+            }
 
         
-        system(command);
+            //usuwanie pliku
+            remove(tempName);
 
-
-        FILE* file = fopen(tempName, "r");
-
-
-        char* block = calloc(1, sizeof("kurwaaa"));
-
-        // strcpy(block, file);
-        block = "kurwaaa";
-
-        int size = pStruct->actSize;
-        *(pStruct->tab+size) = (void*)block;
-
-        //inkrementacja licznika
-        pStruct->actSize = size+1;
-        
-
-        fclose(file);
-
-
-        //wypisywanie zawartosci pliku
-        // char ch = "";
-        // while(1){
-        //     ch = fgetc(file);
-        //     if(ch == EOF){
-        //         break;
-        //     }
-        //     printf("%c", ch);
-        // }
-
-
+        }
+        else{
+            printf("Stworznie pliku tymczasowego sie nie powiodlo.\n");
+        }
+    }
+    else{
+        printf("Brak miejsca w tablicy!\n");
     }
 
-
-
+    
 }
 
-char* showBlock(struct parray *pStruct, int ind){
-    char* result;
-    result = (char*)*(pStruct->tab+ind);
-    char* toReturn = malloc(strlen(result)*sizeof(char));
-    strcpy(toReturn, result);
-    return toReturn;
+char* getBlock(struct parray *pStruct, int ind){
+    //pobieranie aktualnej dlugosci tablicy
+    int size = pStruct->actSize;
+    //jezeli indeks znajduje sie we wlasciwym przedziale to zwracam wartosc bloku
+    if(ind >= 0 && ind < size){
+        char* result = (char*)pStruct->tab[ind];
+        char* toReturn = malloc(strlen(result)*sizeof(char));
+        strcpy(toReturn, result);
+        return toReturn;
+    }
+    //jezeli jest cos nie tak, to zwracam NULL
+    else{
+        return NULL;
+    }
+    
+}
+
+
+void freeBlock(struct parray *pStruct, int ind){
+    //pobranie aktualnej dlugosci tablicy
+    int size = pStruct->actSize;
+    if(ind >= 0 && ind < size){
+        //pobranie wskaznika
+        void* ptr = pStruct->tab[ind];
+        //zwolnienie pamieci
+        free(ptr);
+        //przesuniecie kolejnych wskaznikow jesli nie jestem na koncy tablicy
+        if(size > ind+1){
+            pStruct->tab[ind] = (void*)getBlock(pStruct, ind+1);
+            freeBlock(pStruct, ind+1);
+        }
+        else{
+            //jezeli jestem na koncu tablicy i juz nie ma nic do przepisywania, to zmniejsza licznik aktualnie zajetych blokow
+            pStruct->actSize = size-1;
+            printf("Pomyslnie usunieto blok pamieci.\n");
+        }
+    }
+    else{
+        printf("Niepoprawna wartosc indeksu do usuniecia.\n");
+    }
+    
+}
+
+
+void freeAllArray(struct parray *pStruct){
+    int size = pStruct->actSize;
+    //ide od tylu zeby nie wywolywac rekurencji z funkcji freeBlock()
+    for(int i=size-1; i>=0; i--){
+        freeBlock(pStruct, i);
+    }
+    //zwalnianie pamieci juz pustej tablicy
+    free(pStruct->tab);
 }
 
 
