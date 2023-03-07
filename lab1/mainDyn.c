@@ -3,6 +3,7 @@
 #include<string.h>
 #include<time.h>
 #include <sys/times.h>
+#include <dlfcn.h>
 
 
 
@@ -14,6 +15,16 @@ static clock_t realStop;
 
 //wskaznik na parray
 struct parray *pStruct = NULL;
+
+//wskaznik na biblioteke
+void* handle = NULL;
+
+//definicje funkcji z biblioteki
+struct parray* (*createStructure)(int maxInd);
+void (*countFile)(struct parray *pStruct, char* fileName);
+char* (*getBlock)(struct parray *pStruct, int ind);
+void (*freeBlock)(struct parray *pStruct, int ind);
+void (*freeAllArray)(struct parray *pStruct);
 
 
 //funkcje do zegara
@@ -119,6 +130,22 @@ int parseInput(char* command){
 }
 
 int main(){
+
+    handle = dlopen("liblibrary.so", RTLD_LAZY);
+
+    if(!handle){
+        printf("Blad podczas ladowania biblioteki!\n");
+        return 0;
+    }
+
+    //przepisywanie funkcji
+    createStructure = (struct parray* (*)(int))dlsym(handle,"createStructure");
+    countFile = (void (*)(struct parray*, char*))dlsym(handle,"countFile");
+    getBlock = (char* (*)(struct parray*, int))dlsym(handle,"getBlock");
+    freeBlock = (void (*)(struct parray*, int))dlsym(handle,"freeBlock");
+    freeAllArray = (void (*)(struct parray*))dlsym(handle,"freeAllArray");
+
+    
     int maxSizeOfCommand = 200;
     char currCom[maxSizeOfCommand];
     while(1){
@@ -139,7 +166,8 @@ int main(){
         }
     }
 
-
+    //zamykanie biblioteki
+    dlclose(handle);
     return 0;
 }   
 

@@ -130,7 +130,7 @@ char* getBlock(struct parray *pStruct, int ind){
     //jezeli indeks znajduje sie we wlasciwym przedziale to zwracam wartosc bloku
     if(ind >= 0 && ind < size){
         char* result = (char*)pStruct->tab[ind];
-        char* toReturn = malloc(strlen(result)*sizeof(char));
+        char* toReturn = calloc(1,strlen(result)*sizeof(char));
         strcpy(toReturn, result);
         return toReturn;
     }
