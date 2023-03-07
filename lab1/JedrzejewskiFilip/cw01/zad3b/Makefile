@@ -14,13 +14,16 @@ mainDyn: mainDyn.c
 	gcc -Wall $(OPT) mainDyn.c
 
 addToPath:
-	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1
+	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad3b
 
 
 all:
 	make addToPath
 	make libSta
+	make libDyn 
+	make mainDyn
 	make main 
+	make runTestsWithOptimalization
 
 clean:
 	rm -f a.out liblibrary.so library.o liblibrary.a

@@ -14,13 +14,17 @@ mainDyn: mainDyn.c
 	gcc -Wall $(OPT) mainDyn.c
 
 addToPath:
-	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1
+	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad3a
 
 
 all:
 	make addToPath
 	make libSta
+	make libDyn 
+	make mainDyn
 	make main 
+	make runTests
+
 
 clean:
 	rm -f a.out liblibrary.so library.o liblibrary.a
@@ -33,26 +37,22 @@ simpleTest:
 
 runTests:
 	make clean
-	make libSta OPT=$(OPT)
-	make main OPT=$(OPT)
-	make simpleTest SUF="static_$(OPT)"
+	make libSta
+	make main
+	make simpleTest SUF="static"
 
 	make clean
-	make libDyn OPT=$(OPT)
-	make main OPT=$(OPT)
-	make simpleTest SUF="shared_$(OPT)"
+	make libDyn
+	make main
+	make simpleTest SUF="shared"
 
 	make clean
-	make libDyn OPT=$(OPT)
-	make mainDyn OPT=$(OPT) 
-	make simpleTest SUF="dynamic_$(OPT)"
+	make libDyn
+	make mainDyn 
+	make simpleTest SUF="dynamic"
 
 	make clean
 
-runTestsWithOptimalization:
-	make runTests OPT="-O0"
-	make runTests OPT="-O3"
-	make runTests OPT="-Os"
 
 
 
