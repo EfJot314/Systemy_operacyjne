@@ -20,4 +20,28 @@ clean:
 	rm -f a.out liblibrary.so library.o liblibrary.a
 
 
+simpleTest: 
+	touch results_$(SUF).txt
+	./a.out < testCommands > results_$(SUF).txt
+
+
+runTests:
+	make clean
+	make libSta
+	make main
+	make simpleTest SUF="static"
+
+	make clean
+	make libDyn 
+	make main 
+	make simpleTest SUF="shared"
+
+	make clean
+	make libDyn 
+	make mainDyn 
+	make simpleTest SUF="dynamic"
+
+	make clean
+
+
 

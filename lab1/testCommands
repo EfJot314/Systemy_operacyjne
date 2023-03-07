@@ -1,0 +1,18 @@
+init 10000
+count ./library.c 
+count ./main.c 
+count ./mainDyn.c 
+count ./Makefile 
+count ./testCommands
+show 0
+show 1
+show 2
+show 3
+show 4
+delete index 0
+delete index 0
+delete index 0
+delete index 0
+delete index 0
+destroy 
+quit
