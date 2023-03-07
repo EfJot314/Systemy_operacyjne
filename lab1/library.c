@@ -18,7 +18,7 @@ struct parray* createStructure(int maxSize){
         p1->size = maxSize;
         p1->actSize = 0;
 
-        printf("Struktura zostala pomyslnie stworzona.\n");
+        printf("Struktura zostala pomyslnie zainicjowana.\n");
 
         return p1;
     }
@@ -56,42 +56,51 @@ void countFile(struct parray* pStruct, char *fileName){
                 strcat(command, tempName);
                 
                 //wywolywanie polecenia
-                system(command);
+                int result = system(command);
 
                 //usuwanie polecenia z pamieci
                 free(command);
 
-                //otwieranie pliku tmp
-                FILE* file = fopen(tempName, "r");
-                if(file != NULL){
-                    //przesuwa kursor na koniec pliku fseek(wskaznik na plik, o ile przesunac, wzgledem czego przesunac)
-                    fseek(file, 0, SEEK_END);
-                    //zwraca aktualna pozycje kursora ftell(wskaznik na plik)
-                    int fileSize = ftell(file);
-                    //powrot kursorem na poczatek pliku rewind(wskaznik na plik) -> praktycznie rownowazne fseek(file, 0, SEEK_SET)
-                    rewind(file);
+                //jesli polecenie wykonalo sie poprawnie
+                if(result == 0){
+
+                    //otwieranie pliku tmp
+                    FILE* file = fopen(tempName, "r");
+                    if(file != NULL){
+                        //przesuwa kursor na koniec pliku fseek(wskaznik na plik, o ile przesunac, wzgledem czego przesunac)
+                        fseek(file, 0, SEEK_END);
+                        //zwraca aktualna pozycje kursora ftell(wskaznik na plik)
+                        int fileSize = ftell(file);
+                        //powrot kursorem na poczatek pliku rewind(wskaznik na plik) -> praktycznie rownowazne fseek(file, 0, SEEK_SET)
+                        rewind(file);
 
 
-                    //wpisywanie zawartosci pliku do bloku pamieci
-                    char* block = calloc(1, fileSize*sizeof(char));
-                    char ch = "";
-                    for(int i=0;i<fileSize;i++){
-                        ch = fgetc(file);
-                        *(block+i) = ch;
+                        //wpisywanie zawartosci pliku do bloku pamieci
+                        char* block = calloc(1, fileSize*sizeof(char));
+                        char ch = "";
+                        for(int i=0;i<fileSize;i++){
+                            ch = fgetc(file);
+                            *(block+i) = ch;
+                        }
+
+                        //ustawianie wskaznika w tablicy na wlasnie stworzony blok pamieci
+                        pStruct->tab[size] = (void*)block;
+
+                        //inkrementacja licznika
+                        pStruct->actSize = size+1;
+                        
+                        //zamykanie pliku
+                        fclose(file);
                     }
-
-                    //ustawianie wskaznika w tablicy na wlasnie stworzony blok pamieci
-                    pStruct->tab[size] = (void*)block;
-
-                    //inkrementacja licznika
-                    pStruct->actSize = size+1;
-                    
-                    //zamykanie pliku
-                    fclose(file);
+                    else{
+                        printf("Blad otwierania pliku.\n");
+                    }
                 }
                 else{
-                    printf("Blad otwierania pliku.\n");
+                    printf("Niepoprawne polecenie!\n");
                 }
+
+                
 
                 
             }

@@ -6,7 +6,7 @@
 struct parray *pStruct = NULL;
 
 
-int whatIsIt(char* command){
+int parseInput(char* command){
     char white[] = " \t\n";
     char* curWord = strtok(command, white);
     //wyjscie z programu
@@ -50,6 +50,39 @@ int whatIsIt(char* command){
         }
         return 3;
     }
+    //delete index index
+    if(strcmp(curWord, "delete") == 0){
+        curWord = strtok(NULL, white);
+        if(strcmp(curWord, "index") == 0){
+            curWord = strtok(NULL, white);
+            int ind = atoi(curWord);
+            if(pStruct != NULL){
+                freeBlock(pStruct, ind);
+            }
+            else{
+                printf("Nie zainicjowano struktury!\n");
+            }
+        }
+        
+        return 4;
+    }
+    //destroy
+    if(strcmp(curWord, "destroy") == 0){
+        if(pStruct != NULL){
+            freeAllArray(pStruct);
+            free(pStruct);
+            pStruct = NULL;
+        }
+        else{
+            printf("Nie zainicjowano struktury!\n");
+        }
+        return 5;
+    }
+
+    //jezeli polecenie nie zostalo rozpoznane / jest niepoprawne
+    printf("Nie rozpoznano polecenia: ");
+    printf("%s\n", command);
+    return -1;
     
 }
 
@@ -60,7 +93,7 @@ int main(){
         printf(">>> ");
         fgets(currCom, maxSizeOfCommand, stdin);
 
-        int result =  whatIsIt(currCom);
+        int result =  parseInput(currCom);
 
         if(result == 0){
             return 0;
