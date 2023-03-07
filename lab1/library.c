@@ -11,15 +11,14 @@ struct parray
 
 
 struct parray* createStructure(int maxSize){
-    void* tab[maxSize];
     struct parray *p1;
-    p1 = malloc(sizeof(struct parray));
+    p1 = (struct parray*)malloc(sizeof(struct parray));
     if(p1 != NULL){
         p1->tab = (void*)calloc(maxSize, sizeof(void*));
         p1->size = maxSize;
         p1->actSize = 0;
 
-        printf("struktura zostala stworzona.\n");
+        printf("Struktura zostala pomyslnie stworzona.\n");
 
         return p1;
     }

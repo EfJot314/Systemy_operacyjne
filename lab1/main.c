@@ -1,56 +1,40 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
 
 
+struct parray *pStruct;
+
+
+int whatIsIt(char* command){
+    char white[] = " \t\n";
+    char* curWord = strtok(command, white);
+    //wyjscie z programu
+    if(strcmp(curWord, "quit") == 0){
+        return 0;
+    }
+    //init size
+    if(strcmp(curWord, "init") == 0){
+        curWord = strtok(NULL, white);
+        int maxSize = atoi(curWord);
+        pStruct = createStructure(maxSize);
+        return 1;
+    }
+}
 
 int main(){
-    struct parray *pStruct = createStructure(10);
-    countFile(pStruct, "./testowe");
-    countFile(pStruct, "./wynik");
-    countFile(pStruct, "./wynik");
-    countFile(pStruct, "./testowe");
-    printf("%s\n", getBlock(pStruct,0));
-    printf("%s\n", getBlock(pStruct,1));
-    printf("%s\n", getBlock(pStruct,2));
-    printf("%s\n", getBlock(pStruct,3));
+    int maxSizeOfCommand = 200;
+    char currCom[maxSizeOfCommand];
+    while(1){
+        printf(">>> ");
+        fgets(currCom, maxSizeOfCommand, stdin);
 
-    freeBlock(pStruct, 2);
+        int result =  whatIsIt(currCom);
 
-    printf("Po usunieciu elementu o indekcie 2:\n");
-
-
-    printf("%s\n", getBlock(pStruct,0));
-    printf("%s\n", getBlock(pStruct,1));
-    printf("%s\n", getBlock(pStruct,2));
-    printf("%s\n", getBlock(pStruct,3));
-
-    printf("Dodaje kolejne 4 elementy:\n");
-
-    countFile(pStruct, "./testowe");
-    countFile(pStruct, "./wynik");
-    countFile(pStruct, "./wynik");
-    countFile(pStruct, "./testowe");
-
-    printf("%s\n", getBlock(pStruct,0));
-    printf("%s\n", getBlock(pStruct,1));
-    printf("%s\n", getBlock(pStruct,2));
-    printf("%s\n", getBlock(pStruct,3));
-    printf("%s\n", getBlock(pStruct,4));
-    printf("%s\n", getBlock(pStruct,5));
-    printf("%s\n", getBlock(pStruct,6));
-
-    printf("Usuwam calosc tablicy: \n");
-
-    freeAllArray(pStruct);
-
-    printf("%s\n", getBlock(pStruct,0));
-    printf("%s\n", getBlock(pStruct,1));
-    printf("%s\n", getBlock(pStruct,2));
-    printf("%s\n", getBlock(pStruct,3));
-    printf("%s\n", getBlock(pStruct,4));
-    printf("%s\n", getBlock(pStruct,5));
-    printf("%s\n", getBlock(pStruct,6));
-
-
+        if(result == 0){
+            return 0;
+        }
+    }
 
 
     return 0;
