@@ -55,9 +55,13 @@ int parseInput(char* command){
     //init size
     if(strcmp(curWord, "init") == 0){
         curWord = strtok(NULL, white);
-        int maxSize = atoi(curWord);
-        //wywolanie funkcji
-        pStruct = createStructure(maxSize);
+        if(pStruct == NULL){
+            int maxSize = atoi(curWord);
+            //wywolanie funkcji
+            pStruct = createStructure(maxSize);
+            return 1;
+        }
+        printf("Struktura zostala juz zainicjalizowana!\n");
         return 1;
     }
     //count file
