@@ -30,8 +30,8 @@ double deltaTime(struct timespec t1, struct timespec t2){
 void startTime(){
     //mierzenie czasu poczatkowego
     getrusage(RUSAGE_SELF, &usage);
-    systemValStart = usage.ru_stime;
     userValStart = usage.ru_utime;
+    systemValStart = usage.ru_stime;
     clock_gettime(CLOCK_REALTIME, &realStart);
 
     
@@ -40,8 +40,8 @@ void startTime(){
 void stopTime(){
     //mierzenie czasu koncowego
     getrusage(RUSAGE_SELF, &usage);
-    systemValEnd = usage.ru_stime;
     userValEnd = usage.ru_utime;
+    systemValEnd = usage.ru_stime;
     clock_gettime(CLOCK_REALTIME, &realEnd);
 
     systemStart.tv_sec = systemValStart.tv_sec;
