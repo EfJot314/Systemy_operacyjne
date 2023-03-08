@@ -90,9 +90,14 @@ int parseInput(char* command){
         curWord = strtok(NULL, white);
         if(pStruct == NULL){
             int maxSize = atoi(curWord);
-            //wywolanie funkcji
-            pStruct = createStructure(maxSize);
+            if(maxSize > 0){
+                //wywolanie funkcji
+                pStruct = createStructure(maxSize);
+                return 1;
+            }
+            printf("Niepoprawne dane wejsciowe!\n");
             return 1;
+            
         }
         printf("Struktura zostala juz zainicjalizowana!\n");
         return 1;
@@ -113,7 +118,7 @@ int parseInput(char* command){
     if(strcmp(curWord, "show") == 0){
         curWord = strtok(NULL, white);
         int ind = atoi(curWord);
-        if(pStruct != NULL){
+        if(pStruct != NULL && (ind > 0 || (strcmp(curWord, "0") == 0))){
             //wywolanie funkcji
             char* result = getBlock(pStruct, ind);
 
@@ -126,7 +131,7 @@ int parseInput(char* command){
             }
         }
         else{
-            printf("Nie zainicjowano struktury!\n");
+            printf("Nie zainicjowano struktury i/lub niepoprawne dane wejsciowe!\n");
         }
         return 3;
     }
@@ -136,14 +141,18 @@ int parseInput(char* command){
         if(strcmp(curWord, "index") == 0){
             curWord = strtok(NULL, white);
             int ind = atoi(curWord);
-            if(pStruct != NULL){
+            if(pStruct != NULL && (ind > 0 || (strcmp(curWord, "0") == 0))){
                 freeBlock(pStruct, ind);
             }
             else{
-                printf("Nie zainicjowano struktury!\n");
+                printf("Nie zainicjowano struktury i/lub niepoprawne dane wejsciowe!\n");
             }
         }
-        
+        else{
+            printf("Nie rozpoznano polecenia: ");
+            printf("%s\n", command);
+            return -1;
+        }
         return 4;
     }
     //destroy
@@ -165,6 +174,8 @@ int parseInput(char* command){
     return -1;
     
 }
+
+
 
 int main(){
     int maxSizeOfCommand = 200;
