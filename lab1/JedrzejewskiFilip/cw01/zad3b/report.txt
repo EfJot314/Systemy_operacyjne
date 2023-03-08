@@ -1,6 +1,7 @@
 Na podstawie polecenia zadania wykonano testy, ktore mialy na celu sprawdzenie i porownanie czasu wykonywania programow
-w zaleznosci od uzytego typu biblioteki (statyczna, wspoldzielona, dynamiczna) oraz od wybranej opcji optymalizacji kompilacji programu 
-(O0, O3, Os). Niestety ze wzgledu na bardzo male czasy wykonywania polecen, nie ma mozliwosci by porownac te czasy.
+w zaleznosci od uzytego typu biblioteki (statyczna, wspoldzielona, dynamiczna) oraz od wybranej opcji optymalizacji 
+kompilacji programu (O0, O3, Os). Programy skompilowane z opcja -O0 sa najwolniejsze, nastepnie sa programy z 
+opcja -O3, a najszybsza jest opcja optymalizacji kompilacji -Os .
 
 WYNIKI POLECEN:
 
