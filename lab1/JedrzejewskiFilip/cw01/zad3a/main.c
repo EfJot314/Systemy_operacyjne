@@ -13,8 +13,13 @@ struct timeval systemValStart, systemValEnd;
 struct timespec userStart, userEnd;
 struct timespec systemStart, systemEnd;
 struct timespec realStart, realEnd;
-
 struct rusage usage;
+
+// static struct tms startTms;
+// static struct tms endTms;
+// static clock_t realStart;
+// static clock_t realStop;
+
 
 //wskaznik na parray
 struct parray *pStruct = NULL;
@@ -29,10 +34,12 @@ double deltaTime(struct timespec t1, struct timespec t2){
 //funkcje do zegara
 void startTime(){
     //mierzenie czasu poczatkowego
+    clock_gettime(CLOCK_REALTIME, &realStart);
     getrusage(RUSAGE_SELF, &usage);
     userValStart = usage.ru_utime;
     systemValStart = usage.ru_stime;
-    clock_gettime(CLOCK_REALTIME, &realStart);
+
+    // realStart = times(&startTms);
 
     
 }
@@ -44,23 +51,32 @@ void stopTime(){
     systemValEnd = usage.ru_stime;
     clock_gettime(CLOCK_REALTIME, &realEnd);
 
+
+
     systemStart.tv_sec = systemValStart.tv_sec;
-    systemStart.tv_nsec = systemValStart.tv_usec*1000.0f;
+    systemStart.tv_nsec = systemValStart.tv_usec*1000;
     systemEnd.tv_sec = systemValEnd.tv_sec;
-    systemEnd.tv_nsec = systemValEnd.tv_usec*1000.0f;
+    systemEnd.tv_nsec = systemValEnd.tv_usec*1000;
 
     userStart.tv_sec = userValStart.tv_sec;
-    userStart.tv_nsec = userValStart.tv_usec*1000.0f;
+    userStart.tv_nsec = userValStart.tv_usec*1000;
     userEnd.tv_sec = userValEnd.tv_sec;
-    userEnd.tv_nsec = userValEnd.tv_usec*1000.0f;
+    userEnd.tv_nsec = userValEnd.tv_usec*1000;
 
-    //obliaczanie roznic czasu
+    // obliaczanie roznic czasu
     double realTime = deltaTime(realStart, realEnd);
     double usrTime = deltaTime(userStart, userEnd);
     double sysTime = deltaTime(systemStart, systemEnd);
+    
+
+
+    // realStop = times(&endTms);
+    // double realTime = (double)(realStop-realStart);
+    // double usrTime = (double)(endTms.tms_utime-startTms.tms_utime);
+    // double sysTime = (double)(endTms.tms_stime-startTms.tms_stime);
+
     printf("real: %f, usr: %f, sys: %f \n", realTime, usrTime, sysTime);
 }
-
 
 int parseInput(char* command){
     char white[] = " \t\n";
