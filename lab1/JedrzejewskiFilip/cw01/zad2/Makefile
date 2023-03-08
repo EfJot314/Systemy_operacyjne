@@ -1,4 +1,5 @@
 
+
 libSta: library.c 
 	gcc -Wall -c library.c
 	ar cr liblibrary.a library.o
@@ -14,7 +15,7 @@ mainDyn: mainDyn.c
 	gcc -Wall mainDyn.c
 
 addToPath:
-	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad3a
+	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad2
 
 
 all:
@@ -23,6 +24,7 @@ all:
 	make libDyn
 	make mainDyn
 	make main 
+
 
 clean:
 	rm -f a.out liblibrary.so library.o liblibrary.a

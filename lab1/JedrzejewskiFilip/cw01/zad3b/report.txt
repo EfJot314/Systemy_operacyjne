@@ -9,101 +9,102 @@ I - O0:
 1.Dynamiczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 50387.000000, usr: 0.000000, sys: 57000.000000 
+>>> real: 2691422.000000, usr: 0.000000, sys: 169000.000000 
+>>> real: 3214446.000000, usr: 0.000000, sys: 151000.000000 
+>>> real: 2944749.000000, usr: 0.000000, sys: 131000.000000 
+>>> real: 2576989.000000, usr: 0.000000, sys: 114000.000000 
+>>> real: 3199349.000000, usr: 0.000000, sys: 122000.000000 
+>>>  182  446 5170 ./library.c
+real: 4690.000000, usr: 0.000000, sys: 5000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1210.000000, usr: 0.000000, sys: 2000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1209.000000, usr: 0.000000, sys: 1000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1121.000000, usr: 0.000000, sys: 1000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1094.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2230.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1228.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1199.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1135.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1076.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1421.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1047.000000, usr: 0.000000, sys: 1000.000000 
+
 
 
 
 2. Statyczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 124739.000000, usr: 0.000000, sys: 137000.000000 
+>>> real: 3331982.000000, usr: 0.000000, sys: 193000.000000 
+>>> real: 2593938.000000, usr: 0.000000, sys: 117000.000000 
+>>> real: 3299222.000000, usr: 0.000000, sys: 155000.000000 
+>>> real: 2971668.000000, usr: 0.000000, sys: 187000.000000 
+>>> real: 2737595.000000, usr: 0.000000, sys: 126000.000000 
+>>>  182  446 5170 ./library.c
+real: 7248.000000, usr: 0.000000, sys: 8000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1287.000000, usr: 0.000000, sys: 1000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1160.000000, usr: 0.000000, sys: 1000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1179.000000, usr: 0.000000, sys: 1000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1125.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1625.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1312.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1165.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1122.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1074.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1321.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1013.000000, usr: 0.000000, sys: 1000.000000 
 
 
 3.Wspoldzielona:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 54439.000000, usr: 61000.000000, sys: 0.000000 
+>>> real: 2508101.000000, usr: 115000.000000, sys: 0.000000 
+>>> real: 3001529.000000, usr: 121000.000000, sys: 0.000000 
+>>> real: 2617586.000000, usr: 105000.000000, sys: 0.000000 
+>>> real: 3198267.000000, usr: 108000.000000, sys: 0.000000 
+>>> real: 2879364.000000, usr: 114000.000000, sys: 0.000000 
+>>>  182  446 5170 ./library.c
+real: 5143.000000, usr: 5000.000000, sys: 0.000000 
+>>>  176  382 4394 ./main.c
+1real: 1329.000000, usr: 1000.000000, sys: 0.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1172.000000, usr: 1000.000000, sys: 0.000000 
+>>>   64  119 1104 ./Makefile
+real: 1157.000000, usr: 2000.000000, sys: 0.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1123.000000, usr: 2000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2297.000000, usr: 3000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1354.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1171.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1123.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1078.000000, usr: 1000.000000, sys: 0.000000 
+>>> real: 1623.000000, usr: 1000.000000, sys: 0.000000 
+>>> real: 999.000000, usr: 1000.000000, sys: 0.000000 
 
 
 
@@ -112,102 +113,103 @@ II - O3:
 1.Dynamiczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 49401.000000, usr: 56000.000000, sys: 0.000000 
+>>> real: 2380265.000000, usr: 108000.000000, sys: 0.000000 
+>>> real: 2285990.000000, usr: 100000.000000, sys: 0.000000 
+>>> real: 2416358.000000, usr: 111000.000000, sys: 0.000000 
+>>> real: 2531527.000000, usr: 137000.000000, sys: 0.000000 
+>>> real: 3274632.000000, usr: 152000.000000, sys: 0.000000 
+>>>  182  446 5170 ./library.c
+real: 5372.000000, usr: 5000.000000, sys: 0.000000 
+>>>  176  382 4394 ./main.c
+1real: 1305.000000, usr: 2000.000000, sys: 0.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1105.000000, usr: 1000.000000, sys: 0.000000 
+>>>   64  119 1104 ./Makefile
+real: 1171.000000, usr: 1000.000000, sys: 0.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1072.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2497.000000, usr: 3000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1181.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1113.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1100.000000, usr: 1000.000000, sys: 0.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1081.000000, usr: 2000.000000, sys: 0.000000 
+>>> real: 1353.000000, usr: 2000.000000, sys: 0.000000 
+>>> real: 1006.000000, usr: 1000.000000, sys: 0.000000 
 
 
 
 2. Statyczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 48531.000000, usr: 55000.000000, sys: 0.000000 
+>>> real: 2440287.000000, usr: 0.000000, sys: 119000.000000 
+>>> real: 2337380.000000, usr: 0.000000, sys: 107000.000000 
+>>> real: 2283054.000000, usr: 0.000000, sys: 93000.000000 
+>>> real: 2393506.000000, usr: 0.000000, sys: 95000.000000 
+>>> real: 2536577.000000, usr: 0.000000, sys: 146000.000000 
+>>>  182  446 5170 ./library.c
+real: 3696.000000, usr: 0.000000, sys: 4000.000000 
+>>>  176  382 4394 ./main.c
+1real: 26971.000000, usr: 0.000000, sys: 2000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1419.000000, usr: 0.000000, sys: 2000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1251.000000, usr: 0.000000, sys: 1000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1112.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1730.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1321.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1180.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1122.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1073.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1333.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1027.000000, usr: 0.000000, sys: 1000.000000 
 
 
 
 3.Wspoldzielona:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 69837.000000, usr: 0.000000, sys: 78000.000000 
+>>> real: 3147445.000000, usr: 0.000000, sys: 134000.000000 
+>>> real: 3021521.000000, usr: 0.000000, sys: 164000.000000 
+>>> real: 3620358.000000, usr: 0.000000, sys: 157000.000000 
+>>> real: 3008045.000000, usr: 0.000000, sys: 164000.000000 
+>>> real: 3503366.000000, usr: 0.000000, sys: 168000.000000 
+>>>  182  446 5170 ./library.c
+real: 6478.000000, usr: 0.000000, sys: 7000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1609.000000, usr: 0.000000, sys: 2000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1456.000000, usr: 0.000000, sys: 1000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1408.000000, usr: 0.000000, sys: 1000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1378.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2893.000000, usr: 0.000000, sys: 3000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1628.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1491.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1403.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1311.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1865.000000, usr: 0.000000, sys: 2000.000000 
+>>> real: 1078.000000, usr: 0.000000, sys: 1000.000000 
+
 
 
 
@@ -216,34 +218,34 @@ III - Os:
 1.Dynamiczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 53208.000000, usr: 0.000000, sys: 59000.000000 
+>>> real: 2321390.000000, usr: 0.000000, sys: 100000.000000 
+>>> real: 2390245.000000, usr: 0.000000, sys: 93000.000000 
+>>> real: 2331786.000000, usr: 0.000000, sys: 97000.000000 
+>>> real: 2246561.000000, usr: 0.000000, sys: 85000.000000 
+>>> real: 2545609.000000, usr: 0.000000, sys: 99000.000000 
+>>>  182  446 5170 ./library.c
+real: 5461.000000, usr: 0.000000, sys: 6000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1261.000000, usr: 0.000000, sys: 1000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1175.000000, usr: 0.000000, sys: 1000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1160.000000, usr: 0.000000, sys: 2000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1102.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2163.000000, usr: 0.000000, sys: 3000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1179.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1137.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1120.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1068.000000, usr: 0.000000, sys: 2000.000000 
+>>> real: 1313.000000, usr: 0.000000, sys: 2000.000000 
+>>> real: 1022.000000, usr: 0.000000, sys: 1000.000000 
 
 
 
@@ -251,65 +253,66 @@ real: 0.000000, usr: 0.000000, sys: 0.000000
 2. Statyczna:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 48792.000000, usr: 55000.000000, sys: 0.000000 
+>>> real: 3048997.000000, usr: 119000.000000, sys: 0.000000 
+>>> real: 3081373.000000, usr: 0.000000, sys: 155000.000000 
+>>> real: 2859909.000000, usr: 0.000000, sys: 147000.000000 
+>>> real: 2429633.000000, usr: 0.000000, sys: 99000.000000 
+>>> real: 2362928.000000, usr: 0.000000, sys: 98000.000000 
+>>>  182  446 5170 ./library.c
+real: 3271.000000, usr: 0.000000, sys: 3000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1248.000000, usr: 0.000000, sys: 2000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1153.000000, usr: 0.000000, sys: 1000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1175.000000, usr: 0.000000, sys: 1000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1125.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1707.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1343.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1203.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1146.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1090.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1368.000000, usr: 0.000000, sys: 2000.000000 
+>>> real: 1009.000000, usr: 0.000000, sys: 1000.000000 
+
 
 
 
 3.Wspoldzielona:
 
 >>> Struktura zostala pomyslnie zainicjowana.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 1.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  182  448 5175 ./library.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  144  304 3324 ./main.c
-1real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>  173  388 4289 ./mainDyn.c
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>>   63  117 1087 ./Makefile
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 51060.000000, usr: 0.000000, sys: 73000.000000 
+>>> real: 2869929.000000, usr: 0.000000, sys: 163000.000000 
+>>> real: 3577836.000000, usr: 0.000000, sys: 157000.000000 
+>>> real: 2951506.000000, usr: 0.000000, sys: 114000.000000 
+>>> real: 2914823.000000, usr: 0.000000, sys: 110000.000000 
+>>> real: 3287468.000000, usr: 0.000000, sys: 112000.000000 
+>>>  182  446 5170 ./library.c
+real: 4796.000000, usr: 0.000000, sys: 5000.000000 
+>>>  176  382 4394 ./main.c
+1real: 1305.000000, usr: 0.000000, sys: 1000.000000 
+>>>  205  466 5359 ./mainDyn.c
+real: 1168.000000, usr: 0.000000, sys: 2000.000000 
+>>>   64  119 1104 ./Makefile
+real: 1161.000000, usr: 0.000000, sys: 2000.000000 
 >>>  17  39 227 ./testCommands
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1113.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 2277.000000, usr: 0.000000, sys: 2000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1332.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1162.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1139.000000, usr: 0.000000, sys: 1000.000000 
 >>> Pomyslnie usunieto blok pamieci.
-real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
->>> real: 0.000000, usr: 0.000000, sys: 0.000000 
+real: 1093.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1585.000000, usr: 0.000000, sys: 1000.000000 
+>>> real: 1019.000000, usr: 0.000000, sys: 1000.000000 
