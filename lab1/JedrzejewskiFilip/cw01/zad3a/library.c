@@ -77,7 +77,7 @@ void countFile(struct parray* pStruct, char *fileName){
 
                         //wpisywanie zawartosci pliku do bloku pamieci
                         char* block = calloc(1, fileSize*sizeof(char));
-                        char ch = "";
+                        char ch;
                         for(int i=0;i<fileSize;i++){
                             ch = fgetc(file);
                             *(block+i) = ch;

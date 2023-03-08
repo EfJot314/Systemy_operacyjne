@@ -56,6 +56,7 @@ runTestsWithOptimalization:
 	make runTests OPT="-O0"
 	make runTests OPT="-O3"
 	make runTests OPT="-Os"
+	make clean
 
 
 

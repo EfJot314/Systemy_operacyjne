@@ -14,7 +14,7 @@ mainDyn: mainDyn.c
 	gcc -Wall mainDyn.c
 
 addToPath:
-	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad2
+	export LD_LIBRARY_PATH=/home/filipjedrzejewski/SysOpy/lab1/JedrzejewskiFilip/cw01/zad3a
 
 
 all:
