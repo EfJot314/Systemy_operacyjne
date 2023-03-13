@@ -1,0 +1,5 @@
+Funkcja biblioteczna:
+time: 371714.000000
+
+Funkcja systemowa:
+time: 10053034.000000
