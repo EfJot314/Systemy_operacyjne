@@ -1,0 +1,5 @@
+Odczytywanie znak po znaku:
+time: 3389436.000000
+
+Odczytywanie po 1024 znaki:
+time: 1988351.000000

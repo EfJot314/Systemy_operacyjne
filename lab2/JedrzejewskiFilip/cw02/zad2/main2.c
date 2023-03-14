@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<time.h>
+#include<stdlib.h>
+#include<string.h>
 
 struct timespec realStart, realEnd;
 
@@ -27,6 +29,14 @@ void stopTime(){
 }
 
 
+char* reverseString(char* original, int n){
+    char* reversedString = (char*)malloc(n*sizeof(char));
+    for(int i=0;i<n;i++){
+        reversedString[i] = original[n-i-1];
+    }
+    return reversedString;
+}
+
 
 int main(int argc, char* argv[]){
     //czas start
@@ -42,25 +52,45 @@ int main(int argc, char* argv[]){
             FILE *exit = fopen(exitFile, "w");
 
             if(exit != NULL){
+
+                int N = 1024;
+
                 int counter = 0;
-                char ch;
-                while(1){
-                    //czytanie po 1 znaku z pliku
-                    counter++;
-                    int wsk1 = fseek(source, -counter, SEEK_END);
-                    int wsk2 = fread((void*)&ch, sizeof(char), 1, source);
+                char ch[N];
+                if(ch != NULL){
+                    while(1){
+                        //czytanie po 1024 znakach z pliku
+                        counter++;
+                        int wsk1 = fseek(source, -counter*N, SEEK_END);
+                        int i = N;
+                        while(wsk1 != 0){
+                            i--;
+                            if(i <= 0){
+                                break;
+                            }
+                            wsk1 = fseek(source, -(counter-1)*N-i, SEEK_END);
+                        }
+                        int wsk2 = fread((void*)ch, sizeof(char), i, source);
+                        
+                        //jezeli nic nie przeczytalem to wychodze
+                        if(wsk2 == 0 || wsk1 != 0){
+                            break;
+                        }
 
-                    //jezeli nic nie przeczytalem to wychodze
-                    if(wsk2 == 0 || wsk1 != 0){
-                        break;
+                        //obracam stringa
+                        char* reversed = reverseString(ch, i);
+                        strcpy(ch, reversed);
+                        free(reversed);
+
+                        //zapis do pliku wyjsciowego
+                        fwrite((void*)ch, sizeof(char), i, exit);
+                        
                     }
-
-                    //zapis do pliku wyjsciowego
-                    fwrite((void*)&ch, sizeof(char), 1, exit);
-                    
                 }
-
-
+                else{
+                    printf("Blad alokacji pamieci!\n");
+                }
+                
             }
             else{
                 printf("Blad otwierania/tworzenia pliku wyjsciowego\n");
