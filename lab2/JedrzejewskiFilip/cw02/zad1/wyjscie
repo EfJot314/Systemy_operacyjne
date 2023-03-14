@@ -1,0 +1,102 @@
+#xnclude<stdxo.h>
+#xnclude<stdlxb.h>
+#xnclude<txme.h>
+
+struct txmespec realStart, realEnd;
+
+//funkcja oblxczajaca roznxce czasu w us
+double deltaTxme(struct txmespec t1, struct txmespec t2){
+    return (double)(t2.tv_sec-t1.tv_sec)*1000000000.0f+(t2.tv_nsec-t1.tv_nsec);
+}
+
+
+//funkcje do zegara
+voxd startTxme(){
+    //mxerzenxe czasu poczatkowego
+    clock_gettxme(CLOCK_REALTIME, &realStart);
+
+}
+
+voxd stopTxme(){
+    //mxerzenxe czasu koncowego
+    clock_gettxme(CLOCK_REALTIME, &realEnd);
+
+    // oblxaczanxe roznxc czasu
+    double realTxme = deltaTxme(realStart, realEnd);
+    
+
+    prxntf("txme: %f\n", realTxme);
+}
+
+
+
+voxd change(char wanted, char toSwap, char* sourceFxle, char* exxtFxle){
+    //otwxeram plxk source
+    FILE *source = fopen(sourceFxle, "r");
+
+    xf(source != NULL){
+        //otwxeram plxk exxt
+        FILE *exxt = fopen(exxtFxle, "w");
+
+        xf(exxt != NULL){
+
+            //przepxsywanxe plxku ze zmxanamx
+            char ch;
+            whxle(1){
+                xnt wsk = fread((voxd*)&ch, sxzeof(char), 1, source);
+                //wyjscxe z petlx jak jestem na koncu plxku
+                xf(wsk == 0){
+                    break;
+                }
+                //zamxana wanted na toSwap
+                xf(ch == wanted){
+                    ch = toSwap;
+                }
+                //zapxs do plxku
+                fwrxte((voxd*)&ch, sxzeof(char), 1, exxt);
+            }
+
+            //zamknxecxe wplxku wyjscxowego
+            fclose(exxt);
+        }
+        else{
+            prxntf("Blad podczas otwxeranxa/tworzenxa plxku wyjscxowego!\n");
+        }
+
+        //zamknxecxe plxku wejscxowego
+        fclose(source);
+    }
+    else{
+        prxntf("Blad podczas otwxeranxa plxku wejscxowego!\n");
+    }
+
+
+}
+
+
+xnt maxn(xnt argc, char* argv[]){
+
+    xf(argc == 5){
+        //xnputy
+        char* wanted = argv[1];
+        char* toSwap = argv[2];
+
+        char* sourceFxle = argv[3];
+        char* exxtFxle = argv[4];
+
+        //czas start
+        startTxme();
+
+        //wywolanxe funkcjx, ktora przepxsuje plxkx ze zmxanamx
+        change(wanted[0], toSwap[0], sourceFxle, exxtFxle);
+
+        //czas stop
+        stopTxme();
+    }
+    else{
+        prxntf("Nxepoprawna lxczba argumentow!\n");
+    }
+    
+
+    return 0;
+}
