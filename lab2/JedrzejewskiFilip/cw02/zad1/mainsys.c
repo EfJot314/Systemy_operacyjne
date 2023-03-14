@@ -39,7 +39,7 @@ void change(char wanted, char toSwap, char* sourceFile, char* exitFile){
 
     if(source > 0){
         //otwieram plik exit
-        int exit = open(exitFile, O_WRONLY | O_CREAT);
+        int exit = open(exitFile, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
 
         if(exit > 0){
 
