@@ -5,13 +5,13 @@ main2:
 	gcc main2.c
 
 manualTest:
-	./a.out testowe wyjscie
+	./a.out testowe wyjscie.txt
 
 autoTest:
 	./a.out main1.c tmp1 ; ./a.out tmp1 tmp2 ; diff -s tmp2 main1.c
 
 tacTest:
-	./a.out main1.c tmp1 ; tac -r -s < main1.c | rev > tmp2 ; diff -sw tmp1 tmp2
+	-./a.out testowe tmp1 ; tac -r < testowe | rev > tmp2 ; diff -sw tmp1 tmp2
 
 make all:
 	make clean

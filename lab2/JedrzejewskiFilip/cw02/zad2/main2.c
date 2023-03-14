@@ -43,16 +43,20 @@ int main(int argc, char* argv[]){
     startTime();
 
     if(argc == 3){
+        //pobieram dane z wejscia
         char* sourceFile = argv[1];
         char* exitFile = argv[2];
 
+        //otwieram plik zrodlowy i sprawdzam czy wszystko poszlo ok
         FILE *source = fopen(sourceFile, "r");
 
         if(source != NULL){
+            //otwieram/tworze plik wyjsciowy i sprawdzam czy wszystko poszlo ok
             FILE *exit = fopen(exitFile, "w");
 
             if(exit != NULL){
-
+                
+                //liczba bajtow ktore pobieram na raz
                 int N = 1024;
 
                 int counter = 0;
@@ -62,6 +66,7 @@ int main(int argc, char* argv[]){
                         //czytanie po 1024 znakach z pliku
                         counter++;
                         int wsk1 = fseek(source, -counter*N, SEEK_END);
+                        //magia ktora po prostu pobiera tyle znakow ile sie da, a nie wiecej
                         int i = N;
                         while(wsk1 != 0){
                             i--;
@@ -90,11 +95,17 @@ int main(int argc, char* argv[]){
                 else{
                     printf("Blad alokacji pamieci!\n");
                 }
+
+                //zamykam wyjscie
+                fclose(exit);
                 
             }
             else{
                 printf("Blad otwierania/tworzenia pliku wyjsciowego\n");
             }
+
+            //zamykam zrodlo
+            fclose(source);
 
 
         }

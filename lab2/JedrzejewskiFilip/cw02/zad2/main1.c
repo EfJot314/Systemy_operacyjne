@@ -34,12 +34,15 @@ int main(int argc, char* argv[]){
     startTime();
 
     if(argc == 3){
+        //pobieranie danych z wejscia
         char* sourceFile = argv[1];
         char* exitFile = argv[2];
 
+        //otwieram plik wejsciowy i sprawdzam czy wszytsko poszlo ok
         FILE *source = fopen(sourceFile, "r");
 
         if(source != NULL){
+            //tworze lub otwieram plik wyjsciowy i sprawdzam czy wszystko poszlo ok
             FILE *exit = fopen(exitFile, "w");
 
             if(exit != NULL){
@@ -61,12 +64,16 @@ int main(int argc, char* argv[]){
                     
                 }
 
+                //zamykam wyjscie
+                fclose(exit);
 
             }
             else{
                 printf("Blad otwierania/tworzenia pliku wyjsciowego\n");
             }
 
+            //zamykam zrodlo
+            fclose(source);
 
         }
         else{
