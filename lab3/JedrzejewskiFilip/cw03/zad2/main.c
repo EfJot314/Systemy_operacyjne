@@ -9,21 +9,15 @@ int main(int argn, char* argv[]){
     if(argn == 2){
         char* path = argv[1];
 
-        //tworzenie nowego procesu
-        int newPID = fork();
+        //print nazwy programu
+        //TODO
+        printf("XD ");
 
-        //polecenia dla rodzica
-        if(newPID > 0){
-            //czekam na dziecko
-            wait(NULL);
-        }
-        //polecenia dla dziecka
-        else{
-            //wymuszam brak buforowania danych
-            setbuf(stdout, NULL);
-            //wywoluje ls dla danej sciezki
-            execl("/bin/ls", "ls", path, NULL);
-        }
+        //wymuszam brak buforowania danych
+        setbuf(stdout, NULL);
+
+        //wywoluje ls dla danej sciezki
+        execl("/bin/ls", "ls", path, NULL);
 
 
     }
