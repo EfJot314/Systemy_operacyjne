@@ -12,16 +12,16 @@ int browseDirectory(char* directoryPath, char* sample){
     //kopuje directoryPath, bym mogl te pamiec bezstresowo zwolnic w rodzicu
     char* dirPath = (char*)calloc(PATH_MAX, sizeof(char));
     if(dirPath == NULL){
-        printf("Blad alokacji pamieci!\n");
-        return 0;
+        perror("Blad alokacji pamieci!");
+        exit(0);
     }
     strcpy(dirPath, directoryPath);
 
     int newPID = fork();
 
     if(newPID < 0){
-        printf("Blad podczas tworzenia nowego procesu!\n");
-        return 0;
+        perror("Blad podczas tworzenia nowego procesu!");
+        exit(0);
     }
 
     //robie cokolwiek tylko jesli jestem w dziecku
@@ -44,9 +44,9 @@ int browseDirectory(char* directoryPath, char* sample){
                     //tworze sciezke do danego elementu katalogu
                     char* newPath = (char*)calloc(PATH_MAX, sizeof(char));
                     if(newPath == NULL){
-                        printf("Blad alokacji pamieci!\n");
+                        perror("Blad alokacji pamieci!");
                         free(dirPath);
-                        return 1;
+                        exit(0);
                     }
                     strcpy(newPath, dirPath);
                     strcat(newPath, "/");
@@ -83,17 +83,19 @@ int browseDirectory(char* directoryPath, char* sample){
                                         }
                                     }
                                     else{
-                                        printf("Blad podczas czytania z pliku!\n");
+                                        
+                                        perror("Blad podczas czytania z pliku!");
                                     }
                                 }
                                 else{
-                                    printf("Blad alokacji pamieci!\n");
+                                    perror("Blad alokacji pamieci!");
+                                    exit(0);
                                 }
                                 
                                 
                             }
                             else{
-                                printf("Blad otwierania pliku!\n");
+                                perror("Blad otwierania pliku!");
                             }
                             
                         }
@@ -103,7 +105,7 @@ int browseDirectory(char* directoryPath, char* sample){
                     free(newPath);
                 }
                 else{
-                    printf("Blad pobierania danych o pliku!\n");
+                    perror("Blad pobierania danych o pliku!");
                 }
 
                 //pobieram kolejny element katalogu
@@ -114,7 +116,7 @@ int browseDirectory(char* directoryPath, char* sample){
             closedir(directory);
         }
         else{
-            printf("Blad otwierania katalogu %s !\n", dirPath);
+            perror("Blad otwierania katalogu!");
         }
 
         //jako dziecko koncze funkcje z 1 (ale wczesniej sprzatam pamiec po dirPath)
@@ -137,8 +139,8 @@ int main(int argc, char* argv[]){
         char* dirPath = (char*)calloc(PATH_MAX, sizeof(char));
         char* sample = (char*)calloc(255, sizeof(char));
         if(dirPath == NULL || sample == NULL){
-            printf("Blad alokacji pamieci!\n");
-            return 0;
+            perror("Blad alokacji pamieci!");
+            exit(0);
         }
 
         //kopiuje z wejscia
@@ -151,9 +153,8 @@ int main(int argc, char* argv[]){
 
     }
     else{
-        printf("Niepoprawna liczba argumentow!\n");
+        perror("Niepoprawna liczba argumentow!");
     }
-
 
     return 0;
 }
