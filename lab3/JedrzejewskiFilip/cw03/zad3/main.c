@@ -35,22 +35,21 @@ int browseDirectory(char* directoryPath, char* sample){
 
             //iterowanie po plikach
             while(curDirEl != NULL){
+                //tworze sciezke do danego elementu katalogu
+                char* newPath = (char*)calloc(PATH_MAX, sizeof(char));
+                if(newPath == NULL){
+                    perror("Blad alokacji pamieci!");
+                    free(dirPath);
+                    exit(0);
+                }
+                strcpy(newPath, dirPath);
+                strcat(newPath, "/");
+                strcat(newPath, curDirEl->d_name);
+
                 //pobieranie danych i sprawdzanie czy wszystko dobrze poszlo
                 struct stat stats;
-                int result = stat(curDirEl->d_name, &stats);
-                result = 0;
+                int result = stat(newPath, &stats);
                 if(result == 0){
-
-                    //tworze sciezke do danego elementu katalogu
-                    char* newPath = (char*)calloc(PATH_MAX, sizeof(char));
-                    if(newPath == NULL){
-                        perror("Blad alokacji pamieci!");
-                        free(dirPath);
-                        exit(0);
-                    }
-                    strcpy(newPath, dirPath);
-                    strcat(newPath, "/");
-                    strcat(newPath, curDirEl->d_name);
 
                     //jesli jest katalogiem to rekurencyjnie wywoluje te funkcje w nowym procesie
                     if(S_ISDIR(stats.st_mode)){
@@ -101,12 +100,14 @@ int browseDirectory(char* directoryPath, char* sample){
                         }
                     }
 
-                    //czyszcze miejsce po newPath
-                    free(newPath);
+                    
                 }
                 else{
                     perror("Blad pobierania danych o pliku!");
                 }
+
+                //czyszcze miejsce po newPath
+                free(newPath);
 
                 //pobieram kolejny element katalogu
                 curDirEl = readdir(directory);
