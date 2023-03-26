@@ -1,0 +1,14 @@
+BEZ EXECL:
+-ignore: nic nie jest wyswietlane - sygnal jest ignorowany przez zarowno potomka jak i przodka
+-handler: komunikat o otrzymaniu sygnalu jest wyswietlany dwa razy - sygnal jest obslugiwany przez zarowno potomka jak i przodka
+-mask: nic nie jest wyswietlane - sygnal jest maskowany przez zarowno potomka jak i przodka
+-pending: przodek widzi oczekujacy sygnal, potomek nie widzi oczekujacego sygnalu
+
+KORZYSTAJAC Z EXECVP:
+-ignore: nic nie jest wyswietlane - sygnal jest ignorowany przez zarowno potomka jak i przodka
+-mask: nic nie jest wyswietlane - sygnal jest maskowany przez zarowno potomka jak i przodka
+-pending: przodek widzi oczekujacy sygnal, potomek nie widzi oczekujacego sygnalu
+
+WNIOSKI:
+-wszystkie ustawienia sygnalow sa dziedziczone zarowno uzywajac execvp jak i nie uzywajac tej funkcji
+-w przypadku zablokowania sygnalow nie sa one widoczne w procesach potomnych
