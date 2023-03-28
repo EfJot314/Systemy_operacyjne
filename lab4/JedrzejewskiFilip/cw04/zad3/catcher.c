@@ -8,10 +8,21 @@
 
 int stoper = 1;
 
+
+void sendSignal(int PID, int value){
+    union sigval ssv;
+    ssv.sival_int = value;
+    sigqueue(PID, SIGUSR1, ssv);
+}
+
 void handle(int sig_no, siginfo_t *info, void *ucontext){
     int senderPID = info->si_pid;
     union sigval sv = info->si_value;
+
+    printf("Otrzymano sygnal!\n");
     
+    //wysylam potwierdzenie
+    sendSignal(senderPID, 0);
     
 }
 
