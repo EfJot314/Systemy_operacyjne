@@ -6,7 +6,6 @@
 #include<stdlib.h>
 #include <time.h>
 
-int stoper = 1;
 
 void handle(int sig_no, siginfo_t *info, void *ucontext){
     int sn = info->si_signo;
@@ -25,7 +24,7 @@ void handle(int sig_no, siginfo_t *info, void *ucontext){
 
 
     //wychodze z dziecka
-    stoper = 0;
+    exit(0);
 
 
 
@@ -41,7 +40,7 @@ int main(){
     sleep(1);
 
 
-    //ustawiam obsluge sygnalu SIGUSR1
+    //ustawiam obsluge sygnalu SIGUSR2
     struct sigaction act; 
     act.sa_handler = handle;
     sigemptyset(&act.sa_mask); 
@@ -53,7 +52,7 @@ int main(){
     //dziecko
     if(newPID == 0){
         //czekam na sygnaly
-        while(stoper){
+        while(1){
 
         }
    

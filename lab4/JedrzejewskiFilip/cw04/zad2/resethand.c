@@ -52,7 +52,7 @@ int main(){
         kill(newPID, SIGUSR1);
 
         //zabijam dziecko
-        kill(newPID, SIGKILL);
+        kill(newPID, SIGINT);
 
 
         //czekam chwile na dziecko, jak przyjdzie to dobrze, jak nie to tez dobrze
