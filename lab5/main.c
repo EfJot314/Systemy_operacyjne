@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 
 
@@ -9,24 +10,47 @@
 
 int main(){
 
-    int fd[2];
+    //tworze pipe1
+    int fd1[2];
+    pipe(fd1);
 
-    pipe(fd);
+    //tworze pipe2
+    int fd2[2];
+    pipe(fd2);
 
+    //tworze dziecko
     int newPID = fork();
 
     //jesli dziecko
     if(newPID == 0){
-        char* buf = calloc(100, sizeof(char));
-        close(fd[1]);
-        read(fd[0], buf, 100);
+        //zamykam nieuzywany koniec do pisania
+        close(fd1[1]);
+        //zamykam nieuzywany koniec do czytania
+        close(fd2[0]);
+        //tworzenie buforu
+        char buf[100];
+        //czytam do bufru z pipa
+        read(fd1[0], buf, 100);
+        //drukuje bufor
         printf("%s\n", buf);
-        free(buf);
+        //modyfikuje bufor
+        strcat(buf, " world!");
+        //wysylam bufor
+        write(fd2[1], buf, 100);
     }
     //jesli rodzic
     else{
-        close(fd[0]);
-        write(fd[1], "Hello world!", 100);
+        //zamykam nieuzywana koncowke do czytania
+        close(fd1[0]);
+        //zamykam nieuzywany koniec do pisania
+        close(fd2[1]);
+        //wysylam wiadomosc
+        write(fd1[1], "Hello", 100);
+        //czytam zwrot
+        char buf[100];
+        read(fd2[0], buf, 100);
+        //printuje
+        printf("%s\n", buf);
 
     }
 
