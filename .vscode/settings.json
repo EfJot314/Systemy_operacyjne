@@ -2,6 +2,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "*.rmd": "markdown",
-        "signal.h": "c"
+        "signal.h": "c",
+        "fcntl.h": "c"
     }
 }
