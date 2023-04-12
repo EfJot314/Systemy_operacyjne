@@ -7,6 +7,35 @@
 #include<fcntl.h>
 
 
+struct timespec realStart, realEnd;
+
+//funkcja obliczajaca roznice czasu w us
+double deltaTime(struct timespec t1, struct timespec t2){
+    return (double)(t2.tv_sec-t1.tv_sec)*1000000000.0f+(t2.tv_nsec-t1.tv_nsec);
+}
+
+
+//funkcje do zegara
+void startTime(){
+    //mierzenie czasu poczatkowego
+    clock_gettime(CLOCK_REALTIME, &realStart);
+
+}
+
+void stopTime(){
+    //mierzenie czasu koncowego
+    clock_gettime(CLOCK_REALTIME, &realEnd);
+
+    // obliaczanie roznic czasu
+    double realTime = deltaTime(realStart, realEnd);
+    
+    //wyspisywanie czasu (dziele przez 10^9, aby miec czas w sekundach)
+    printf("time: %f\n", realTime/1000000000.0f);
+}
+
+
+
+
 
 int main(int argc, char* argv[]){
 
@@ -32,32 +61,77 @@ int main(int argc, char* argv[]){
         double dx = (x_max - x_min) / n;
 
         //wlaczam zegar
-        // startTime();
+        startTime();
 
         //tworze potok nazwany
-        const char* path = "potoczek";
+        char* path = "./potoczek";
         //S_IRWXU - czytanie, pisanie, wykonywanie
-        int kkk = mkfifo(path, S_IRWXU);
+        int info = mkfifo(path, 0666);
 
-        for(int i=0;i<n;i++){
-            int res = open(path, O_RDONLY);
-            if(res > 0){
-                printf("sup\n");
-            }
-            else{
-                printf("ups\n");
-            }
+        if(info != 0){
+            perror("Blad podczas tworzenia potoku!");
+            exit(1);
         }
 
+        //zmienne pomocnicze
+        char *xp = (char*)calloc(100, sizeof(char));
+        char *xk = (char*)calloc(100, sizeof(char));
+        char *H = (char*)calloc(100, sizeof(char));
+
+        double result = 0;
+        for(int i=0;i<n;i++){
+            //tworze potomka
+            int newPID = fork();
+            //dziecko idzie do programu helper
+            if(newPID == 0){
+                char *xp = (char*)calloc(100, sizeof(char));
+                char *xk = (char*)calloc(100, sizeof(char));
+                char *H = (char*)calloc(100, sizeof(char));
+                sprintf(xp, "%f", x_min);
+                sprintf(xk, "%f", x_min+dx);
+                sprintf(H, "%f", h);
+                char* argv[] = {path, xp, xk, H};
+                execv("./helper", argv);
+                perror("Blad podczas uruchamiania programu helper!");
+            }
+
+            //rodzic slucha pipe i czeka na komunikat od dzieciaka
+            else{
+                //otwieram pipe
+                int res = open(path, O_RDONLY);
+                if(res > 0){
+                    
+                    //czytam pojedynczy odczyt od dzieciaka
+                    double single_result;
+                    read(res, &single_result, sizeof(double));
+
+                    //dodaje do wyniku calkowitego
+                    result += single_result;
+
+                    //zamykam pipe
+                    close(res);
+
+                }
+                else{
+                    perror("Blad podczas otwierania potoku - main!");
+                    exit(2);
+                }
+            }
+            x_min += dx;
+        }
+        
         //usuwam potok
         remove(path);
 
+        //print wyniku
+        printf("%f\n", result);
+
         //czas stop
-        // stopTime();
+        stopTime();
 
     }
     else{
-        perror("Niepoprawna liczba argumentow!");
+        perror("Niepoprawna liczba argumentow - main!");
     }
 
 

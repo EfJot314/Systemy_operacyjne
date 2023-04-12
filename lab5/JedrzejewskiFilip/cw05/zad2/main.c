@@ -120,9 +120,6 @@ int main(int argc, char* argv[]){
             }
         }
 
-        //czekam na potomkow
-        wait(NULL);
-
         //sumuje wyniki od potomkow
         double result = 0;
         for(int i=0;i<n;i++){
