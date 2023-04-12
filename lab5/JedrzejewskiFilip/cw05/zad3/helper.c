@@ -23,7 +23,6 @@ int main(int argc, char* argv[]){
         double xk = strtod(argv[2], NULL);
         double h = strtod(argv[3], NULL);
 
-
         //glowna petla liczaca calke
         double result = 0;
         while(xp < xk){

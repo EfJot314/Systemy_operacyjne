@@ -74,23 +74,28 @@ int main(int argc, char* argv[]){
         }
 
         //zmienne pomocnicze
-        char *xp = (char*)calloc(100, sizeof(char));
-        char *xk = (char*)calloc(100, sizeof(char));
-        char *H = (char*)calloc(100, sizeof(char));
+        char *xp = (char*)calloc(22, sizeof(char));
+        char *xk = (char*)calloc(22, sizeof(char));
+        char *H = (char*)calloc(22, sizeof(char));
 
+        //glowna petla tworzaca potomkow i rozdzielajaca calke na n programow
         double result = 0;
         for(int i=0;i<n;i++){
+            //nwm czm musze to tu pisac, ale po setkach prob tylko tak dzialalo, chetnie sie dowiem czm
+            char *xp = (char*)calloc(22, sizeof(char));
+            char *xk = (char*)calloc(22, sizeof(char));
+            char *H = (char*)calloc(22, sizeof(char));
+
             //tworze potomka
             int newPID = fork();
             //dziecko idzie do programu helper
             if(newPID == 0){
-                char *xp = (char*)calloc(100, sizeof(char));
-                char *xk = (char*)calloc(100, sizeof(char));
-                char *H = (char*)calloc(100, sizeof(char));
-                sprintf(xp, "%f", x_min);
-                sprintf(xk, "%f", x_min+dx);
-                sprintf(H, "%f", h);
+                snprintf(xp, 22, "%1.20f", x_min);
+                snprintf(xk, 22, "%1.20f", x_min+dx);
+                snprintf(H, 22, "%1.20f", h);
+
                 char* argv[] = {path, xp, xk, H};
+
                 execv("./helper", argv);
                 perror("Blad podczas uruchamiania programu helper!");
             }
@@ -117,7 +122,17 @@ int main(int argc, char* argv[]){
                     exit(2);
                 }
             }
+
+            //zwalniam
+            free(xp);
+            free(xk);
+            free(H);
+
+            //przechodze do kolejnego przedzialu
             x_min += dx;
+
+            
+            
         }
         
         //usuwam potok
