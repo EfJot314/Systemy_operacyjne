@@ -66,7 +66,7 @@ int main(int argc, char* argv[]){
         //tworze potok nazwany
         char* path = "./potoczek";
         //S_IRWXU - czytanie, pisanie, wykonywanie
-        int info = mkfifo(path, 0666);
+        int info = mkfifo(path, S_IRWXU);
 
         if(info != 0){
             perror("Blad podczas tworzenia potoku!");
