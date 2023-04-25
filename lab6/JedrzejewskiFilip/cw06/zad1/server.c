@@ -15,7 +15,7 @@
 
 int main(){
     //tworze klucz
-    int key = ftok("$HOME", SERVERCHAR);
+    int key = ftok(getenv("HOME"), SERVERCHAR);
 
     int msg = msgget(key, IPC_CREAT | 0666);
     if(msg == -1){
@@ -23,31 +23,32 @@ int main(){
         exit(1);
     }
 
+
     //tablica klientow
-    int nOfClients = 0;
     int msgTab[100];
+
+    for(int i=0;i<100;i++){
+        msgTab[i] = -1;
+    }
 
 
     //glowna petla servera
     struct msgbuf com;
     while(1){
         //czekam na komunikat
-        int result = msgrcv(msg, &com, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), INIT, NULL);
+        int result = msgrcv(msg, &com, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), INT_MIN, 0);
         if(result != -1){
             //STOP
             if(com.mtype == STOP){
-                //przesuwam pozostale adresy kolejek
-                for(int i=com.intData;i<nOfClients-1;i++){
-                    msgTab[i] = msgTab[i+1];
-                }
-                //zmniejszam liczbe aktywnych klientow
-                nOfClients -= 1;
+                msgTab[com.intData] = -1;
             }
             //LIST
             else if(com.mtype == LIST){
                 //printuje wzytkich klientow
-                for(int i=0;i<nOfClients;i++){
-                    printf("%d ", msgTab[i]);
+                for(int i=0;i<100;i++){
+                    if(msgTab[i] != -1){
+                        printf("%d ", i);
+                    }
                 }
                 printf("\n");
             }
@@ -59,9 +60,9 @@ int main(){
                 newMsg.intData = com.id;
                 strcpy(newMsg.charData, com.charData);
                 //wysylam wiadomosc do wszystkich klientow
-                for(int i=0;i<nOfClients;i++){
-                    if(i != com.id){
-                        msgsnd(msgTab[i], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), NULL);
+                for(int i=0;i<100;i++){
+                    if(i != com.id && msgTab[i] != -1){
+                        msgsnd(msgTab[i], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), 0);
                     }
                 }
             }
@@ -73,7 +74,28 @@ int main(){
                 newMsg.intData = com.id;
                 strcpy(newMsg.charData, com.charData);
                 //wysylam wiadomosc do klienta
-                msgsnd(msgTab[com.intData], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), NULL);   
+                msgsnd(msgTab[com.intData], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), 0);   
+            }
+            //INIT
+            else if(com.mtype == INIT){
+                //dodaje nowego clienta
+                int newID;
+                for(int i=0;i<100;i++){
+                    if(msgTab[i] == -1){
+                        newID = i;
+                        msgTab[newID] = msgget(com.intData, 0666);
+                        break;
+                    }
+                }
+                
+
+                //tworze wiadomosc
+                struct msgbuf newMsg;
+                newMsg.mtype = INIT;
+                newMsg.intData = newID;
+                strcpy(newMsg.charData, "");
+                //wysylam wiadomosc do klienta
+                msgsnd(msgTab[newID], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), 0);   
             }
 
 

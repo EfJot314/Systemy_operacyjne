@@ -1,4 +1,4 @@
-#define MAXMSGLEN 256
+#define MAXCOMLEN 256
 #define SERVERCHAR 'S'
 
 #define STOP 1
@@ -13,7 +13,7 @@ struct msgbuf {
   long mtype;         /* typ komunikatu   */
   int id;                  //id sendera
   int intData;                 //dodatkowa dana typu int
-  char charData[MAXMSGLEN];      /* tresc komunikatu */
+  char charData[MAXCOMLEN];      /* tresc komunikatu */
 };
 
 
