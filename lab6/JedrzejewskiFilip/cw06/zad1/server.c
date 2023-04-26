@@ -44,13 +44,23 @@ int main(){
             }
             //LIST
             else if(com.mtype == LIST){
-                //printuje wzytkich klientow
+                //tworze str z lista
+                char* myClients = (char*)calloc(MAXCOMLEN, sizeof(char));
                 for(int i=0;i<100;i++){
                     if(msgTab[i] != -1){
-                        printf("%d ", i);
+                        char numberString[MAXCOMLEN];
+                        sprintf(numberString, "%d", i);
+                        strcat(myClients, numberString);
+                        strcat(myClients, " ");
                     }
                 }
-                printf("\n");
+                //tworze wiadomosc
+                struct msgbuf newMsg;
+                newMsg.mtype = LIST;
+                newMsg.intData = 0;
+                strcpy(newMsg.charData, myClients);
+                //wysylam wiadomosc do klienta
+                msgsnd(msgTab[com.id], &newMsg, sizeof(com.id)+sizeof(com.intData)+sizeof(com.charData), 0);   
             }
             //2ALL
             else if(com.mtype == _2ALL){
