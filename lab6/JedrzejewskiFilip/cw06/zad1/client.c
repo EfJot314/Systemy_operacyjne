@@ -13,6 +13,7 @@
 int loop = 1;
 int myId = 0;
 int msg;
+int readerPID;
 
 
 void sendMsg(int rec, int id, int type, int intData, char* charData){
@@ -94,8 +95,7 @@ void handle(int sig_no){
 
 int main(){
     
-    //obluga sygnalu SIGINT
-    signal(SIGINT, handle);
+    
 
     //kolejka serwera
     int key = ftok(getenv("HOME"), SERVERCHAR);
@@ -119,9 +119,9 @@ int main(){
     myId = mes.intData;
 
 
-    int newPID = fork();
+    readerPID = fork();
     //dziecko - odbieranie komunikatow
-    if(newPID == 0){
+    if(readerPID == 0){
         while(loop){
             //odbieram ew wiadomosci
             struct msgbuf mesg;
@@ -133,12 +133,18 @@ int main(){
             else if(mesg.mtype == LIST){
                 printf("%s\n", mesg.charData);
             }
+            else if(mesg.mtype == STOP){
+                //wysylam sigint od parenta a on mnie zalatwi
+                kill(getppid(), SIGINT);
+            }
         }
         
     }
     //rodzic - wysylanie komunikatow
     else{
-        
+        //obluga sygnalu SIGINT
+        signal(SIGINT, handle);
+
         //glowna petla
         char* order = (char*)calloc(MAXCOMLEN, sizeof(char));
         size_t size;
@@ -155,7 +161,7 @@ int main(){
         free(order);
 
         //zabijam czytacza
-        kill(newPID, SIGKILL);
+        kill(readerPID, SIGKILL);
 
         //usuwam kolejke
         msgctl(myKey, IPC_RMID, NULL);
