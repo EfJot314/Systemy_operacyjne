@@ -3,7 +3,10 @@
 #include<sys/shm.h>
 #include<sys/ipc.h>
 #include<sys/mman.h>
+#include<signal.h>
 
+
+#define maxComLen 1000
 
 #define M 10
 #define N 6
@@ -32,11 +35,17 @@ int main(){
 	int salonPID = fork();
 	//kod salonu
 	if(salonPID == 0){
+		
 		//zamykam koncowke do pisania
 		close(fd[1]);
 
-		char res[1000];
-		read(fd[0], res, 1000);
+		char res[maxComLen];
+		read(fd[0], res, maxComLen);
+
+		int fryzTime = atoi(res);
+		if(fryzTime == 0){
+			perror("Niepoprawna dana!");
+		}
 
 
 		printf("%s\n", res);
@@ -50,14 +59,11 @@ int main(){
 			//zbieram dane z wejscia
 			char* comm = NULL;
 			getline(&comm, &comSize, stdin);
-			int fryzTime = atoi(comm);
-			if(fryzTime == 0){
-				perror("Niepoprawna dana!");
-			}
-			free(comm);
 
 			//wysylam klienta do salonu
-			write(fd[1], "fajnie", 1000);
+			write(fd[1], comm, maxComLen);
+
+			free(comm);
 
 			break;
 		}
@@ -66,6 +72,7 @@ int main(){
 		semctl(fryz, NULL, IPC_RMID, NULL);
 		semctl(chairs, NULL, IPC_RMID, NULL);
 		semctl(waiters, NULL, IPC_RMID, NULL);
+
 
 	}
 	
