@@ -27,12 +27,15 @@ void * cellLive(void *arghs){
     free(arghs);
     
 
+
     //glowna petla
-    while(1){
+    while(true){
         //czekam na sygnal
         pause();
+
+        background = foreground;
         
-        if(is_alive(x, y, foreground)){
+        if(is_alive(x, y, background)){
             foreground[grid_width*y+x] = true;
         }
         else{

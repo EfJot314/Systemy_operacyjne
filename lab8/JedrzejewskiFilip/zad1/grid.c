@@ -29,7 +29,7 @@ void * cellLive(void *arghs){
 
 
     //glowna petla
-    while(1){
+    while(true){
         //czekam na sygnal
         pause();
 
