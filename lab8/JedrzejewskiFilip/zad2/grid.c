@@ -18,14 +18,25 @@ void handler(int signum){
 void * cellLive(void *arghs){
     //pobieram argumenty
     void** args = (void**)arghs;
-    int x = *(int*)args[0];
-    int y = *(int*)args[1];
-    char* foreground = (char*)args[2];
-    char* background = (char*)args[3];
+    int* Xtmp = (int*)args[0];
+    int* Ytmp = (int*)args[1];
+    int count = *(int*)args[2];
+    char* foreground = (char*)args[3];
+    char* background = (char*)args[4];
+
+    //przepisuje aby potem zwolnic
+    int X[count];
+    int Y[count];
+    for(int i=0;i<count;i++){
+        X[i] = Xtmp[i];
+        Y[i] = Ytmp[i];
+    }
+    
+    //uwalniam wszystko co moge
     free(args[0]);
     free(args[1]);
+    free(args[2]);
     free(arghs);
-    
 
 
     //glowna petla
@@ -34,15 +45,21 @@ void * cellLive(void *arghs){
         pause();
 
         background = foreground;
-        
-        if(is_alive(x, y, background)){
-            foreground[grid_width*y+x] = true;
-        }
-        else{
-            foreground[grid_width*y+x] = false;
-        }
 
+        for(int i=0;i<count;i++){
+            int x = X[i];
+            int y = Y[i];
+            if(is_alive(x, y, background)){
+                foreground[grid_width*y+x] = true;
+            }
+            else{
+                foreground[grid_width*y+x] = false;
+            }
+        }
+        
     }
+
+
 
 }
 
@@ -58,8 +75,8 @@ void destroy_grid(char *grid)
     free(grid);
 }
 
-void destroy_threads(pthread_t** threads){
-    for(int i=0;i<grid_height*grid_width;i++){
+void destroy_threads(pthread_t** threads, int n){
+    for(int i=0;i<n;i++){
         pthread_cancel(*threads[i]);
         free(threads[i]);
     }
@@ -89,7 +106,7 @@ void draw_grid(char *grid)
     refresh();
 }
 
-pthread_t** init_grid(char *grid1, char* grid2)
+pthread_t** init_grid(char *grid1, char* grid2, int n)
 {
     //obsluga SIGUSR1
     signal(SIGUSR1, handler);
@@ -98,28 +115,53 @@ pthread_t** init_grid(char *grid1, char* grid2)
     for (int i = 0; i < grid_width * grid_height; ++i)
         grid1[i] = rand() % 2 == 0;
 
-    //tworzenie watkow
-    pthread_t** toReturn = calloc(grid_width*grid_height, sizeof(pthread_t*));
+    
+    //przydzielam komorki watkom
+    int xTab[n][(int)(grid_width*grid_height/n)+1];
+    int yTab[n][(int)(grid_width*grid_height/n)+1];
+    int countTab[n];
+    for(int i=0;i<n;i++){
+        countTab[i] = 0;
+    }
+    int iterator = 0;
     for(int x=0; x<grid_width; x++){
         for(int y=0; y<grid_height; y++){
-            //tworze argumenty
-            void ** args = calloc(4, sizeof(void*));
-            int* i = (int*)calloc(1, sizeof(int));
-            int* j = (int*)calloc(1, sizeof(int));
-            *i = x;
-            *j = y;
-            args[0] = (void*)i;
-            args[1] = (void*)j;
-            args[2] = (void*)grid1;
-            args[3] = (void*)grid2;
+            xTab[iterator][countTab[iterator]] = x;
+            yTab[iterator][countTab[iterator]] = y;
+            countTab[iterator] += 1;
 
-
-            //tworze nowy watek
-            pthread_t* newThread = (pthread_t*)calloc(1, sizeof(pthread_t));
-            pthread_create(newThread, NULL, cellLive, (void*)args);
-            toReturn[y*grid_width+x] = newThread;
-
+            //zwiekszanie iteratora
+            iterator = (iterator + 1) % n;
         }
+    }
+
+    //tworze tablice watkow i ja wypelniam
+    pthread_t** toReturn = calloc(n, sizeof(pthread_t*));
+    for(int i=0;i<n;i++){
+        //tworze argumenty
+        void ** args = calloc(5, sizeof(void*));
+        
+        int* X = (int*)calloc(countTab[i], sizeof(int));
+        int* Y = (int*)calloc(countTab[i], sizeof(int));
+
+        for(int j=0;j<countTab[i];j++){
+            X[j] = xTab[i][j];
+            Y[j] = yTab[i][j];
+        }
+
+        int* c = (int*)calloc(1, sizeof(int));
+        *c = countTab[i];
+        
+        args[0] = (void*)X;
+        args[1] = (void*)Y;
+        args[2] = (void*)c;
+        args[3] = (void*)grid1;
+        args[4] = (void*)grid2;
+
+        //tworze nowy watek
+        pthread_t* newThread = (pthread_t*)calloc(1, sizeof(pthread_t));
+        pthread_create(newThread, NULL, cellLive, (void*)args);
+        toReturn[i] = newThread;
     }
 
     return toReturn;
@@ -166,9 +208,9 @@ bool is_alive(int row, int col, char *grid)
     }
 }
 
-void update_grid(pthread_t** threads)
+void update_grid(pthread_t** threads, int n)
 {
-    for(int i=0;i<grid_width*grid_height;i++){
+    for(int i=0;i<n;i++){
         pthread_kill(*threads[i], SIGUSR1);
     }
     

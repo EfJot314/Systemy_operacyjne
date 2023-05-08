@@ -8,8 +8,20 @@
 #include <time.h>
 #include <pthread.h>
 
-int main()
+int main(int argc, char* argv[])
 {
+	if(argc != 2){
+		perror("Bledna liczba argumentow wywolania programu!");
+		exit(1);
+	}
+
+	int n = atoi(argv[1]);
+	if(n <= 0){
+		perror("Bledny argument!");
+		exit(1);
+	}
+
+
 	srand(time(NULL));
 	setlocale(LC_CTYPE, "");
 	initscr(); // Start curses mode
@@ -17,7 +29,7 @@ int main()
 	char *foreground = create_grid();
 	char *background = create_grid();
 
-	pthread_t** threads = init_grid(foreground, background);
+	pthread_t** threads = init_grid(foreground, background, n);
 
 	while (true)
 	{
@@ -26,14 +38,14 @@ int main()
 		usleep(500 * 1000);
 
 		// Step simulation
-		update_grid(threads);
+		update_grid(threads, n);
 
 	}
 
 	endwin(); // End curses mode
 	destroy_grid(foreground);
 	destroy_grid(background);
-	destroy_threads(threads);
+	destroy_threads(threads, n);
 
 	return 0;
 }
