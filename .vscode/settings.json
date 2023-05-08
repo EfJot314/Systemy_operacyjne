@@ -3,6 +3,7 @@
     "files.associations": {
         "*.rmd": "markdown",
         "signal.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "pthread.h": "c"
     }
 }
