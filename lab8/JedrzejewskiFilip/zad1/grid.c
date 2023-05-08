@@ -20,7 +20,8 @@ void * cellLive(void *arghs){
     void** args = (void**)arghs;
     int x = *(int*)args[0];
     int y = *(int*)args[1];
-    char* grid = (char*)args[2];
+    char* foreground = (char*)args[2];
+    char* background = (char*)args[3];
     free(args[0]);
     free(args[1]);
     free(arghs);
@@ -31,12 +32,14 @@ void * cellLive(void *arghs){
     while(1){
         //czekam na sygnal
         pause();
+
+        background = foreground;
         
-        if(is_alive(x, y, grid)){
-            grid[grid_width*y+x] = true;
+        if(is_alive(x, y, background)){
+            foreground[grid_width*y+x] = true;
         }
         else{
-            grid[grid_width*y+x] = false;
+            foreground[grid_width*y+x] = false;
         }
 
     }
@@ -86,28 +89,30 @@ void draw_grid(char *grid)
     refresh();
 }
 
-pthread_t** init_grid(char *grid)
+pthread_t** init_grid(char *grid1, char* grid2)
 {
     //obsluga SIGUSR1
     signal(SIGUSR1, handler);
 
     //wypelnianie grida
     for (int i = 0; i < grid_width * grid_height; ++i)
-        grid[i] = rand() % 2 == 0;
+        grid1[i] = rand() % 2 == 0;
 
     //tworzenie watkow
     pthread_t** toReturn = calloc(grid_width*grid_height, sizeof(pthread_t*));
     for(int x=0; x<grid_width; x++){
         for(int y=0; y<grid_height; y++){
             //tworze argumenty
-            void ** args = calloc(3, sizeof(void*));
+            void ** args = calloc(4, sizeof(void*));
             int* i = (int*)calloc(1, sizeof(int));
             int* j = (int*)calloc(1, sizeof(int));
             *i = x;
             *j = y;
             args[0] = (void*)i;
             args[1] = (void*)j;
-            args[2] = (void*)grid;
+            args[2] = (void*)grid1;
+            args[3] = (void*)grid2;
+
 
             //tworze nowy watek
             pthread_t* newThread = (pthread_t*)calloc(1, sizeof(pthread_t));
