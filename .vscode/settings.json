@@ -4,6 +4,7 @@
         "*.rmd": "markdown",
         "signal.h": "c",
         "fcntl.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "sem.h": "c"
     }
 }
