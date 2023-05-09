@@ -5,6 +5,7 @@
         "signal.h": "c",
         "fcntl.h": "c",
         "pthread.h": "c",
-        "sem.h": "c"
+        "sem.h": "c",
+        "stdio.h": "c"
     }
 }

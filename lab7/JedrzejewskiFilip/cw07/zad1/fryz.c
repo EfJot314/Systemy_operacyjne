@@ -6,21 +6,9 @@
 #include<sys/sem.h>
 #include<signal.h>
 #include<unistd.h>
+#include"header.h"
 
 
-#define M 5
-#define N 6
-#define P 5
-
-
-
-union semun {
-    int              val;    /* Value for SETVAL */
-    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-    unsigned short  *array;  /* Array for GETALL, SETALL */
-    struct seminfo  *__buf;  /* Buffer for IPC_INFO
-                                           (Linux-specific) */
-};
 
 
 
@@ -34,18 +22,19 @@ int main(int argc, char* argv[]){
 	waiting->sem_op = 0;
 
 
-    //otwieram semafory
-	int key1 = ftok(".", 'F');
-	int key2 = ftok(".", 'C');
-	int key3 = ftok(".", 'P');
+    //klucze
+	int key0 = ftok(".", K1);
+	int key1 = ftok(".", K2);
+	int key2 = ftok(".", K3);
+	int key3 = ftok(".", K4);
+
+    //semafory
 	int fryz = semget(key1, 0, 0666);
-	int chairs = semget(key2, 0, 0666);
-	int waiters = semget(key3, 0, 0666);
 
     //pamiec wspolna
-    int fryzM = shmget(key1, 0, 0666);
-	int chairM = shmget(key1, 0, 0666);
-	int waitM = shmget(key1, 0, 0666);
+    int fryzM = shmget(key0, 0, 0666);
+	int chairM = shmget(key2, 0, 0666);
+	int waitM = shmget(key3, 0, 0666);
 
     int* fryzTab = (int*)shmat(fryzM, NULL, 0666);
 	int* chairTab = (int*)shmat(chairM, NULL, 0666);
@@ -53,10 +42,12 @@ int main(int argc, char* argv[]){
     
 
 
+    //glowna petla fryzjera
     while(1){
 		semop(fryz, waiting, 1);
 
         int fryzTime = fryzTab[num];
+
 
         //szukam fotela
         int foundChair = -1;
@@ -67,6 +58,7 @@ int main(int argc, char* argv[]){
                 break;
             }
         }
+
 
         //jesli nie znalazlem to do poczekalni
         if(foundChair == -1){
@@ -85,14 +77,39 @@ int main(int argc, char* argv[]){
         }
         //jesli znalazlem fotel to pracuje
         else{
-            printf("pracujemy!\n");
             sleep(fryzTime);
-            //zwalniam fotel
+
+            //po pracy zwalniam fotel
             chairTab[foundChair] = 0;
+
+            //koncze prace
+            fryzTab[num] = 0;
+
             //ide spac
             union semun arg;
 	        arg.val = 1;
             semctl(fryz, num, SETVAL, arg);
+
+            //sprawdzm czy ktos jest w poczekalni
+            if(waitTab[0] > 0){
+                //jesli ktos jest to szukam dla niego fryzjera
+                for(int i=0;i<M;i++){
+                    if(fryzTab[i] == 0){
+                        fryzTab[i] = waitTab[0];
+                        //przesuwam waiterow
+                        for(int j=1;j<P;j++){
+                            waitTab[j-1] = waitTab[j];
+                            waitTab[j] = 0;
+                        }
+                        union semun arg;
+                        arg.val = 0;
+                        semctl(fryz, i, SETVAL, arg);
+                        break;
+                    }
+                }
+            }
+
+            
         }
 
 	}

@@ -7,40 +7,31 @@
 #include<signal.h>
 #include<unistd.h>
 #include<string.h>
-
-
-#define M 5
-#define N 6
-#define P 5
+#include"header.h"
 
 
 long comSize = 1000;
 
 
-union semun {
-    int              val;    /* Value for SETVAL */
-    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-    unsigned short  *array;  /* Array for GETALL, SETALL */
-    struct seminfo  *__buf;  /* Buffer for IPC_INFO
-                                           (Linux-specific) */
-};
+
 
 
 int main(){
 	//tworze 3 zbiory kluczy i semaforow (1-fryzjerzy 2-fotele 3-poczekalnia)
-	int key1 = ftok(".", 'F');
-	int key2 = ftok(".", 'C');
-	int key3 = ftok(".", 'P');
+	int key0 = ftok(".", K1);
+	int key1 = ftok(".", K2);
+	int key2 = ftok(".", K3);
+	int key3 = ftok(".", K4);
 
 
+	//semafory
 	int fryz = semget(key1, M, IPC_CREAT | 0666);
-	int chairs = semget(key2, N, IPC_CREAT | 0666);
-	int waiters = semget(key3, P, IPC_CREAT | 0666);
+
 
 	//tworze pamiec wspolna
-	int fryzM = shmget(key1, M*sizeof(int), IPC_CREAT | 0666);
-	int chairM = shmget(key1, N*sizeof(int), IPC_CREAT | 0666);
-	int waitM = shmget(key1, P*sizeof(int), IPC_CREAT | 0666);
+	int fryzM = shmget(key0, M*sizeof(int), IPC_CREAT | 0666);
+	int chairM = shmget(key2, N*sizeof(int), IPC_CREAT | 0666);
+	int waitM = shmget(key3, P*sizeof(int), IPC_CREAT | 0666);
 
 	//otwieram pamiec wspolna
 	int* fryzTab = (int*)shmat(fryzM, NULL, 0666);
@@ -51,23 +42,22 @@ int main(){
 	union semun arg;
 	arg.val = 1;
 	for(int i=0;i<M;i++){
-		semctl(fryz, i, SETVAL, arg);
 		fryzTab[i] = 0;
+		semctl(fryz, i, SETVAL, arg);
 	}
 	for(int i=0;i<N;i++){
-		semctl(chairs, i, SETVAL, arg);
-		// chairTab[i] = 0;
+		chairTab[i] = 0;
 	}
 	for(int i=0;i<P;i++){
-		semctl(waiters, i, SETVAL, arg);
 		waitTab[i] = 0;
 	}
 
 
 
-	int fPIDs[M];
+	
 
 	//tworze fryzjerow
+	int fPIDs[M];
 	for(int i=0;i<M;i++){
 
 		char str[10];
@@ -87,42 +77,11 @@ int main(){
 	int salonPID = fork();
 	//kod salonu
 	if(salonPID == 0){
-		while(1){
-			//zbieram dane
-			int fNum = 0;
-			for(int i=0;i<M;i++){
-				if(fryzTab[i] > 0){
-					fNum++;
-				}
-			}
-			int cNum = 0;
-			for(int i=0;i<N;i++){
-				if(chairTab[i] > 0){
-					cNum++;
-				}
-			}
-			int wNum = 0;
-			for(int i=0;i<P;i++){
-				if(waitTab[i] > 0){
-					wNum++;
-				}
-			}
-
-			//wywietlam dane
-			// sleep(1);
-			printf("------------------------\n");
-
-			printf("Fryzjerzy: %d/%d \n", fNum, M);
-
-			printf("------------------------\n");
-		}
-		
-		
-		
+		execl("./salon", NULL);
 	}
 	//kod pobierania danych
 	else{
-
+		//petla glowna programu - obsluga salonu
 		while(1){
 			//zbieram dane z wejscia
 			char* comm = NULL;
@@ -160,6 +119,7 @@ int main(){
 			}
 
 
+
 			//jesli nie znalazl sie wolny fryzjer to klient idzie do poczekalni
 			if(foundFryz == -1){
 				for(int i=0;i<P;i++){
@@ -175,8 +135,6 @@ int main(){
 
 		//usuwam semafory
 		semctl(fryz, 0, IPC_RMID, NULL);
-		semctl(chairs, 0, IPC_RMID, NULL);
-		semctl(waiters, 0, IPC_RMID, NULL);
 
 		//usuwam pamiec wspolna
 		shmdt((void*)fryzTab);
