@@ -19,7 +19,7 @@ long comSize = 1000;
 
 
 int main(){
-	//tworze 3 semafory (1-fryzjerzy 2-fotele 3-poczekalnia)
+	//tworze 3 zbiory semaforow (1-fryzjerzy 2-fotele 3-poczekalnia)
 	int key1 = ftok(".", 'F');
 	int key2 = ftok(".", 'C');
 	int key3 = ftok(".", 'P');
@@ -32,6 +32,20 @@ int main(){
 	pipe(fd);
 
 
+	//tworze fryzjerow
+	for(int i=0;i<M;i++){
+		int num = i;
+		if(fork() == 0){
+			while(1){
+				printf("%d \n", num);
+				break;
+			}
+			return 0;
+		}
+
+	}
+
+
 	int salonPID = fork();
 	//kod salonu
 	if(salonPID == 0){
@@ -39,16 +53,23 @@ int main(){
 		//zamykam koncowke do pisania
 		close(fd[1]);
 
-		char res[maxComLen];
-		read(fd[0], res, maxComLen);
+		
 
-		int fryzTime = atoi(res);
-		if(fryzTime == 0){
-			perror("Niepoprawna dana!");
+		while(1){
+			char res[maxComLen];
+			read(fd[0], res, maxComLen);
+
+			int fryzTime = atoi(res);
+			if(fryzTime == 0){
+				perror("Niepoprawna dana!");
+				continue;
+			}
+
+
+
+			printf("%s\n", res);
 		}
-
-
-		printf("%s\n", res);
+		
 	}
 	//kod pobierania danych
 	else{
