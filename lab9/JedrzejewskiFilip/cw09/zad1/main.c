@@ -18,13 +18,19 @@ void* mikolaj(){
 }
 
 
-void* renifer(){
-    printf("Jestem reniferem!\n");
+void* renifer(void* args){
+    //zbieram id z wejscia
+    int id = *(int*)args;
+    free((int*)args);
+    printf("Jestem reniferem nr %d!\n", id);
 }
 
 
-void* elf(){
-    printf("Jestem elfem!\n");
+void* elf(void* args){
+    //zbieram id z wejscia
+    int id = *(int*)args;
+    free((int*)args);
+    printf("Jestem elfem nr %d!\n", id);
 }
 
 
@@ -34,8 +40,11 @@ int main(){
     //tworze renifery
     pthread_t ** renifers = (pthread_t**)calloc(nRen, sizeof(pthread_t*));
     for(int i=0;i<nRen;i++){
+        int *id = (int*)malloc(sizeof(int));
+        *id = i;
+        void* args = (void*)id;
         pthread_t* newT = (pthread_t*)malloc(sizeof(pthread_t));
-        pthread_create(newT, NULL, &renifer, NULL);
+        pthread_create(newT, NULL, &renifer, args);
         renifers[i] = newT;
     }
 
@@ -43,8 +52,11 @@ int main(){
     //tworze elfy
     pthread_t ** elfs = (pthread_t**)calloc(nElf, sizeof(pthread_t*));
     for(int i=0;i<nElf;i++){
+        int *id = (int*)malloc(sizeof(int));
+        *id = i;
+        void* args = (void*)id;
         pthread_t* newT = (pthread_t*)malloc(sizeof(pthread_t));
-        pthread_create(newT, NULL, &elf, NULL);
+        pthread_create(newT, NULL, &elf, args);
         elfs[i] = newT;
     }
 
