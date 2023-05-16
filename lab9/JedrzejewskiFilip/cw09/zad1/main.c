@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <ncurses.h>
@@ -12,6 +12,18 @@
 #define nRen 9
 
 
+int flag = 1;
+
+void handler(int signum){
+    //koncze dzialanie programu -> przerywam petle
+    flag = 0;
+}
+
+
+int randint(int a, int b){
+    return a + rand() % (b-a);
+}
+
 
 void* mikolaj(){
     printf("Jestem Mikolajem!\n");
@@ -23,6 +35,15 @@ void* renifer(void* args){
     int id = *(int*)args;
     free((int*)args);
     printf("Jestem reniferem nr %d!\n", id);
+    //glowna petla renifera
+    while(1){
+        //najpierw wakacje w cieplych krajach
+        sleep(randint(5,10));
+
+        //potem rozwozenie
+        
+
+    }
 }
 
 
@@ -31,11 +52,23 @@ void* elf(void* args){
     int id = *(int*)args;
     free((int*)args);
     printf("Jestem elfem nr %d!\n", id);
+    //glowna petla elfa
+    while(1){
+        //najpierw praca
+        sleep(randint(2,5));
+
+        //potem problemy
+
+
+    }
 }
 
 
 
 int main(){
+    //dla randoma
+    srand(time(NULL));
+
 
     //tworze renifery
     pthread_t ** renifers = (pthread_t**)calloc(nRen, sizeof(pthread_t*));
@@ -65,8 +98,12 @@ int main(){
     pthread_create(mikolajT, NULL, &mikolaj, NULL);
 
 
+    //przechwytuje ctr+c
+    signal(SIGINT, handler);
 
 
+    //nieskonczona petla blokujaca program
+    while(flag){}
 
 
     //zabijam renifery
