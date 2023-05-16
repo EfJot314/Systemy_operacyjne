@@ -7,6 +7,11 @@
 #include <unistd.h>
 
 
+//kolory
+#define MY_COLOR_RED     "\x1b[31m"
+#define MY_COLOR_GREEN   "\x1b[32m"
+#define MY_COLOR_YELLOW  "\x1b[33m"
+#define MY_COLOR_RESET   "\x1b[0m"
 
 #define nElf 10
 #define nRen 9
@@ -56,9 +61,30 @@ void* renifer(void* args){
         //potem zalatwianie formalnosci z Mikolajem
         pthread_mutex_lock(&mikolajMutex);
         waitingRenifers++;
-        if(waitingRenifers >= 9){
-            pthread_cond_broadcast(&mikolajCond);
+        printf(MY_COLOR_YELLOW "Renifer: czeka %d reniferów na Mikołaja, %d\n" MY_COLOR_RESET, waitingRenifers, id);
+        //czekam na Mikolaja
+        if(waitingRenifers < 9){
+            while(waitingRenifers < 9){
+                pthread_cond_wait(&reniferCond, &mikolajMutex);
+            }
         }
+        else{
+            //krzycze do pozostalych ze czas sie zbierac
+            pthread_cond_broadcast(&reniferCond);
+
+            //jesli juz sa wszyscy to budzimy Mikolaja
+            if(waitingRenifers == 9){
+                //budze Mikolaja
+                printf(MY_COLOR_YELLOW "Renifer: wybudzam Mikołaja, %d\n" MY_COLOR_RESET, id);
+                pthread_cond_broadcast(&mikolajCond);
+            }
+        }
+        
+        //czekamy na dowiezienie wszystkich prezentow
+        while(waitingRenifers != 0){
+            pthread_cond_wait(&reniferCond, &mikolajMutex);
+        }
+
         pthread_mutex_unlock(&mikolajMutex);
 
     }
@@ -89,16 +115,16 @@ void* elf(void* args){
             elfID[waitingElfs] = id;
             pthread_mutex_unlock(&elfMutex);
             waitingElfs++;
-            printf("Elf: czeka %d elfów na Mikołaja, %d\n", waitingElfs, id);
+            printf(MY_COLOR_GREEN "Elf: czeka %d elfów na Mikołaja, %d\n" MY_COLOR_RESET, waitingElfs, id);
             if(waitingElfs == 3){
-                printf("Elf: wybudzam Mikołaja, %d\n", id);
+                printf(MY_COLOR_GREEN "Elf: wybudzam Mikołaja, %d\n" MY_COLOR_RESET, id);
                 pthread_cond_broadcast(&mikolajCond);
             }
             waiting = 1;
             myInd = waitingElfs-1;
         }
         else{
-            printf("Elf: samodzielnie rozwiązuję swój problem, %d\n", id);
+            printf(MY_COLOR_GREEN "Elf: samodzielnie rozwiązuję swój problem, %d\n" MY_COLOR_RESET, id);
         }
         pthread_mutex_unlock(&mikolajMutex);
 
@@ -108,16 +134,10 @@ void* elf(void* args){
             while(elfID[myInd] == id){
                 pthread_cond_wait(&elfWaitCond, &elfMutex);
             }
-            printf("Elf: Mikołaj rozwiązuje problem, %d\n", id);
+            printf(MY_COLOR_GREEN "Elf: Mikołaj rozwiązuje problem, %d\n" MY_COLOR_RESET, id);
             pthread_mutex_unlock(&elfMutex);
             
         }
-
-
-        
-        
-        
-
 
     }
 }
@@ -165,11 +185,15 @@ int main(){
     //nieskonczona petla bedaca Mikolajem
     while(flag){
         pthread_mutex_lock(&mikolajMutex);
+        //spie
         while(waitingElfs != 3 && waitingRenifers < 9){
             pthread_cond_wait(&mikolajCond, &mikolajMutex);
         }
+        //budze sie
+        printf(MY_COLOR_RED "Mikołaj: budzę się\n" MY_COLOR_RESET);
+        //obsluga elfow
         if(waitingElfs == 3){
-            printf("Mikołaj: rozwiązuje problemy elfów %d, %d, %d \n", elfID[0], elfID[1], elfID[2]);
+            printf(MY_COLOR_RED "Mikołaj: rozwiązuje problemy elfów %d, %d, %d \n" MY_COLOR_RESET, elfID[0], elfID[1], elfID[2]);
             //ustawiam tak, aby elfy nie mialy chwilowo problemow
             waitingElfs = -1;
             // pthread_mutex_lock(&elfMutex);
@@ -186,8 +210,13 @@ int main(){
             waitingElfs = 0;
             pthread_cond_broadcast(&elfCond);
         }
-        else{
+        //obsluga reniferow
+        if(waitingRenifers == 9){
+            //dostarczam zabawki
+            printf(MY_COLOR_RED "Mikołaj: dostarczam zabawki\n" MY_COLOR_RESET);
+            sleep(randint(2,4));
             waitingRenifers = 0;
+            pthread_cond_broadcast(&reniferCond);
         }
         
 
