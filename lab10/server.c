@@ -27,13 +27,6 @@ int main() {
 
  	char buf[20];
  	while(1){
-        if(fork() != 0){
-            printf("XD\n");
-            break;
-        }
-
-
-
      	if(read(fd, buf, 20) == -1)
          	perror("Error receiving message");
      	printf("Message from client \"%s\"\n",buf);
